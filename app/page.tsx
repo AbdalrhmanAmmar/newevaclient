@@ -5,6 +5,8 @@ import AboutUs from "@/components/Home/AboutUs";
 import HeroSection from "@/components/Home/HeroSection";
 import WhyChooseUs from "@/components/Home/chooseUs";
 import { OurClients } from "@/components/Home/OurClient";
+import CustomerReviews from "@/components/Home/CustomerReviews";
+import ServicesSection from "@/components/Home/ServicesSection";
 
 
 interface Props {}
@@ -15,10 +17,12 @@ const Page: FC<Props> = (props) => {
   return (
     <div>
 
-        <HeroSection />
+  <HeroSection />
   <AboutUs/>
   <WhyChooseUs/>
+  <ServicesSection/>
   <OurClients/>
+  <CustomerReviews/>
 
     </div>
   );
