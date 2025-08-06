@@ -3,14 +3,14 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
+import { Suspense } from 'react';
 
-export default function WhatsAppRedirect() {
+function WhatsAppRedirectContent() {
   const searchParams = useSearchParams();
   const whatsappUrl = searchParams.get('url') || '';
 
   useEffect(() => {
     if (whatsappUrl) {
-      // تأخير 3 ثواني قبل الانتقال
       const timer = setTimeout(() => {
         window.location.href = decodeURIComponent(whatsappUrl);
       }, 3000);
@@ -29,5 +29,17 @@ export default function WhatsAppRedirect() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function WhatsAppRedirect() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-12 w-12 text-[#25D366] animate-spin" />
+      </div>
+    }>
+      <WhatsAppRedirectContent />
+    </Suspense>
   );
 }
