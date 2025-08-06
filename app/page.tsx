@@ -2,6 +2,9 @@
 import React, { FC, useState } from "react";
 import Image from "next/image"
 import AboutUs from "@/components/Home/AboutUs";
+import HeroSection from "@/components/Home/HeroSection";
+import WhyChooseUs from "@/components/Home/chooseUs";
+import { OurClients } from "@/components/Home/OurClient";
 
 
 interface Props {}
@@ -12,7 +15,10 @@ const Page: FC<Props> = (props) => {
   return (
     <div>
 
-      <AboutUs/>
+        <HeroSection />
+  <AboutUs/>
+  <WhyChooseUs/>
+  <OurClients/>
 
     </div>
   );
