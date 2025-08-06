@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ShieldCheck, Users, Award, CheckCircle, ArrowDown } from 'lucide-react';
 import AnimatedArrowDown from './Arrow';
-import whiskImage from '@/public/images/Whisk.jpg';
+import whiskImage from '../../public/Images/Whisk.jpg';
 
 
 const AboutUs = () => {
