@@ -41,13 +41,7 @@ const AboutUs = () => {
           {/* Image Section */}
             <div className="  glass-card rounded-2xl  aspect-[4/4] ">
               <Image 
-                src="/images/whisk.jpg" 
-                alt="فريق إيفاء للأمن والسلامة"
-                fill
-                className="object-cover rounded-md "
-              />
-              <Image 
-                src="/whisk.jpg" 
+                src="/Images/whisk.jpg" 
                 alt="فريق إيفاء للأمن والسلامة"
                 fill
                 className="object-cover rounded-md "

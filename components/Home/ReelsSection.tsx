@@ -57,7 +57,7 @@ const ReelsSection = () => {
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
             <Image
-              src="/images/evaa.jpg" // صورة البروفايل هنا
+              src="/Images/evaa.jpg" // صورة البروفايل هنا
               alt="EVA Profile"
               width={36}
               height={36}
@@ -116,7 +116,7 @@ const ReelsSection = () => {
         </span>
         <span className="flex flex-col items-center">
 <Image 
-  src="/images/evaa.jpg" 
+  src="/Images/evaa.jpg" 
   width={24} 
   height={24} 
   alt="Profile"
