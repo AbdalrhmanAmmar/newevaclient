@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import ServiceOpenModal from '../service/ServiceOpenModal';
 
 const ServicesShowcase = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -187,12 +186,12 @@ const ServicesShowcase = () => {
           </Button>
         </div>
       </div>
-
+{/* 
       <ServiceOpenModal 
         isOpen={isOpen} 
         onClose={closeModal} 
         serviceTitle={selectedService} 
-      />
+      /> */}
     </section>
   );
 };
