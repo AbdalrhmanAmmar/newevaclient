@@ -186,7 +186,7 @@ const ReviewCard = ({ review }: { review: any }) => (
           <p className="text-sm text-gray-500">{review.role} - {review.company}</p>
         </div>
         <Image 
-          src="/images/GoogleIcon.png" 
+          src="/Images/GoogleIcon.png" 
           alt="Google Reviews" 
           width={36} 
           height={36}
