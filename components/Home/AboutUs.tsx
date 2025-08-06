@@ -46,12 +46,7 @@ const AboutUs = () => {
                 fill
                 className="object-cover rounded-md "
               />
-              <Image 
-                src="/whisk.jpg" 
-                alt="فريق إيفاء للأمن والسلامة"
-                fill
-                className="object-cover rounded-md "
-              />
+        
             </div>
 
          

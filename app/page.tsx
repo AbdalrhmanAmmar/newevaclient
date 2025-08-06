@@ -11,8 +11,7 @@ const Page: FC<Props> = (props) => {
   const [activeItem, setActiveItem] = useState(0);
   return (
     <div>
-      hello
-      <Image width={30} height={30} alt="test"  src="/Images/evaa.jpg"/>
+
       <AboutUs/>
 
     </div>
