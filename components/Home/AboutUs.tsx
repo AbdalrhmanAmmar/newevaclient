@@ -102,6 +102,15 @@ const AboutUs = () => {
                 );
               })}
             </div>
+            <div>
+                       <Image 
+                src={whiskImage} 
+                alt="فريق إيفاء للأمن والسلامة"
+                fill
+                className="object-cover rounded-md "
+              />
+
+            </div>
 
             {/* CTA Button */}
             <div className={`transition-all duration-1000 delay-800 ${
