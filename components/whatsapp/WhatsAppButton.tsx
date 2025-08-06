@@ -14,7 +14,7 @@ const WhatsAppButton = () => {
   const chatRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   
-  const phoneNumber = "966123456789"; // استبدل برقمك
+  const phoneNumber = "966540800987"; // استبدل برقمك
   const defaultMessage = "مرحبا كيف يمكننا مساعدتك؟"; // الرسالة الافتراضية
 
   useEffect(() => {

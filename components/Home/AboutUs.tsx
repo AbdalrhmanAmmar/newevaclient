@@ -5,14 +5,22 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ShieldCheck, Users, Award, CheckCircle, ArrowDown } from 'lucide-react';
 import AnimatedArrowDown from './Arrow';
+import { useRouter } from 'next/navigation';
+
 
 
 const AboutUs = () => {
+  const router =useRouter();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  const handlerouter=()=>{
+    router.push("/service")
+
+  }
 
   const features = [
     { icon: ShieldCheck, title: "حلول معتمدة", description: "أنظمة مطابقة للدفاع المدني" },
@@ -115,7 +123,8 @@ const AboutUs = () => {
             <div className={`transition-all duration-1000 delay-800 ${
               isVisible ? 'animate-fade-in opacity-100' : 'opacity-0 translate-y-4'
             }`}>
-              <Button size="lg" className="btn-gradient text-lg px-6 py-3 group mt-6">
+
+              <Button onClick={handlerouter} size="lg" className="btn-gradient text-lg px-6 py-3 group mt-6">
 تعرف على خدماتنا
                 <AnimatedArrowDown  />
               </Button>
