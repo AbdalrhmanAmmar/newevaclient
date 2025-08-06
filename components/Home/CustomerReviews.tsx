@@ -113,7 +113,7 @@ const CustomerReviews = () => {
         <div className="text-center mb-12">
           <div className="flex justify-center mb-4">
             <Image 
-              src="/images/GoogleIcon.png" 
+              src="/Images/GoogleIcon.png" 
               alt="Google Reviews" 
               width={48} 
               height={48}

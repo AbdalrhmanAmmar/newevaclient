@@ -77,7 +77,7 @@ const WhatsAppButton = () => {
           <div className="bg-yellow-500 text-white p-3 flex justify-between items-center">
             <div className="flex items-center gap-2">
               <Image
-                src="/images/32X32 أسود بدون خلفية-01.png"
+                src="/Images/32X32 أسود بدون خلفية-01.png"
                 alt="إيفاء Logo"
                 width={32}
                 height={32}
@@ -97,7 +97,7 @@ const WhatsAppButton = () => {
           <div className="p-4 bg-gray-50 h-60 overflow-y-auto">
             <div className="flex flex-col items-center mb-2">
               <Image
-                src="/images/32X32 أسود بدون خلفية-01.png"
+                src="/Images/32X32 أسود بدون خلفية-01.png"
                 alt="إيفاء Logo"
                 width={64}
                 height={64}

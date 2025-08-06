@@ -102,12 +102,12 @@ const AboutUs = () => {
               })}
             </div>
             <div>
-                       <Image 
+                       {/* <Image 
                 src="/whisk.jpg"
                 alt="فريق إيفاء للأمن والسلامة"
                 fill
                 className="object-cover rounded-md "
-              />
+              /> */}
 
             </div>
 
