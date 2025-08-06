@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ShieldCheck, Users, Award, CheckCircle, ArrowDown } from 'lucide-react';
 import AnimatedArrowDown from './Arrow';
-import whiskImage from '@/public/images/Whisk.jpg';
 
 
 const AboutUs = () => {
@@ -104,7 +103,7 @@ const AboutUs = () => {
             </div>
             <div>
                        <Image 
-                src={whiskImage} 
+                src="/whisk.jpg"
                 alt="فريق إيفاء للأمن والسلامة"
                 fill
                 className="object-cover rounded-md "
