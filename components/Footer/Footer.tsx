@@ -20,6 +20,7 @@ import {
 import { FaTiktok,FaWhatsapp,FaSnapchatGhost  } from "react-icons/fa";
 import { dir } from "console";
 import { useRef,useEffect } from "react";
+import ContactForm from "./ContactForm";
 
 
 const services = [
@@ -226,6 +227,7 @@ export default function Footer() {
               {/* قم بارسال رساله تضمن الخدمه التي تريدها وسنقوم بالتواصل معك في أقرب وقت ممكن. */}
               قم بارسال رساله تضمن الحدمة التي تريدها وسنقوم بالتواصل معك في أقرب وقت ممكن
             </p>
+                      <ContactForm />
             
           </motion.div>
         </div>

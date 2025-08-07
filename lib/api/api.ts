@@ -1,0 +1,72 @@
+import axios from "axios";
+
+
+// إعداد Axios
+const api = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api",
+  timeout: 10000,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+});
+
+
+// إضافة التوكن للطلبات
+// api.interceptors.request.use((config) => {
+//   const token = useAuthStore.getState().token || localStorage.getItem("token");
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`;
+//   }
+//   return config;
+// });
+
+// معالجة الأخطاء
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem("token");
+      window.location.href = "/auth/login";
+    }
+    return Promise.reject(error);
+  }
+);
+
+// واجهات البيانات
+export interface AuthResponse {
+  success: boolean;
+  message: string;
+  data?: {
+    user: {
+      id: string;
+      name: string;
+      phone: string;
+      role: "user" | "admin" | "superadmin";
+      isVerified: boolean;
+    };
+    token?: string;
+  };
+}
+
+export interface OTPResponse {
+  success: boolean;
+  message: string;
+  data?: {
+    otpId: string;
+    expiresAt: string;
+  };
+}
+
+export interface VerifyOTPOnlyResponse {
+  success: boolean;
+  message: string;
+  data?: {
+    verified: boolean;
+    otpId: string;
+  };
+}
+
+
+
+export default api;

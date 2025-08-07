@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
-// import ServiceOpenModal from './ServiceOpenModal';
+import ServiceOpenModal from './ServiceOpenModal';
 
 const ServiceClient = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -169,11 +169,11 @@ const ServiceClient = () => {
         </div>
       </div>
 
-      {/* <ServiceOpenModal 
+     <ServiceOpenModal 
         isOpen={isOpen} 
         onClose={closeModal} 
         serviceTitle={selectedService} 
-      /> */}
+      /> 
     </section>
   );
 };
