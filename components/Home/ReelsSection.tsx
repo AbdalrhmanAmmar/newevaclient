@@ -37,7 +37,7 @@ const ReelsSection = () => {
       {/* الفيديو */}
       <video
         ref={videoRef}
-        src="/videos/evavideo.mp4" // قم بوضع الفيديو هنا
+        src="/video/evavideo.mp4" // قم بوضع الفيديو هنا
         className="w-full h-full object-contain"
         muted={isMuted}
         loop
