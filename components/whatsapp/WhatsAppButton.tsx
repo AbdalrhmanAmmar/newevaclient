@@ -16,27 +16,34 @@ const WhatsAppButton = () => {
   
   const phoneNumber = "966540800987"; 
   const defaultMessage = "مرحبا كيف يمكننا مساعدتك؟";
-  // const openWhatModal = localStorage.setItem("whatmodel", JSON.stringify(isVisible))
 
-  
+useEffect(() => {
+  const hasSeenWhatsApp = localStorage.getItem("whatsapp_shown");
 
-  useEffect(() => {
-    // تأخير ظهور الأيقونة بعد 3 ثواني
+  if (hasSeenWhatsApp) {
+    setIsVisible(true);
+  } else {
     const visibilityTimer = setTimeout(() => {
-      // console.log(openWhatModal)
       setIsVisible(true);
+      localStorage.setItem("whatsapp_shown", "true");
     }, 3000);
-    
-    // فتح النافذة تلقائياً بعد 5 ثواني
+
     const autoOpenTimer = setTimeout(() => {
       setIsOpen(true);
     }, 5000);
-    
+
     return () => {
       clearTimeout(visibilityTimer);
       clearTimeout(autoOpenTimer);
     };
-  }, []);
+  }
+}, []);
+
+  
+
+  
+
+
 
   useEffect(() => {
     // إغلاق الشات عند النقر خارجها

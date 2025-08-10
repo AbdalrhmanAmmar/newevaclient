@@ -25,7 +25,7 @@ const HeroSection = () => {
     if (chooseRef) {
       chooseRef.scrollIntoView({ 
         behavior: 'smooth',
-        block: 'end'
+        block: 'start'
       });
     }
   };

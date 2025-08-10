@@ -3,7 +3,7 @@ import axios from "axios";
 
 // إعداد Axios
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api",
+  baseURL: "https://api-eva-l9ot.onrender.com",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
