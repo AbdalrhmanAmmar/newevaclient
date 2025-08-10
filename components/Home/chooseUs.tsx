@@ -1,14 +1,23 @@
 "use client"
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ReelsSection from './ReelsSection';
+import { useChooseUsStore } from '@/store/scrollStroe';
 
 const WhyChooseUs = () => {
+  const ChooseRef = useRef<HTMLElement>(null)
+  const setChooseus = useChooseUsStore((state)=>state.setChooseUsRef)
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+      useEffect(() => {
+      if (ChooseRef.current) {
+        setChooseus(ChooseRef.current);
+      }
+    }, [setChooseus]);
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -61,8 +70,10 @@ const WhyChooseUs = () => {
     },
   ];
 
+  
+
   return (
-    <section id="why-us" className="relative py-12 md:py-20 overflow-hidden">
+    <section ref={ChooseRef} id="why-us" className="relative py-12 md:py-20 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
       
       <div className="relative z-10 container mx-auto px-4">

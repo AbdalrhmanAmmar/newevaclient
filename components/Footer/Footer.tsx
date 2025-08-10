@@ -21,6 +21,7 @@ import { FaTiktok,FaWhatsapp,FaSnapchatGhost  } from "react-icons/fa";
 import { dir } from "console";
 import { useRef,useEffect } from "react";
 import ContactForm from "./ContactForm";
+import { useScrollStore } from "@/store/scrollStroe";
 
 
 const services = [
@@ -102,17 +103,17 @@ const socialLinks = [
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
-//     const footerRef = useRef<HTMLElement>(null);
-// //   const setFooterRef = useScrollStore((state) => state.setFooterRef);
+    const footerRef = useRef<HTMLElement>(null);
+  const setFooterRef = useScrollStore((state) => state.setFooterRef);
 
-//     useEffect(() => {
-//     if (footerRef.current) {
-//       setFooterRef(footerRef.current);
-//     }
-//   }, [setFooterRef]);
+    useEffect(() => {
+    if (footerRef.current) {
+      setFooterRef(footerRef.current);
+    }
+  }, [setFooterRef]);
 
   return (
-    <footer   className="bg-background border-t border-primary/10 ">
+    <footer ref={footerRef}   className="bg-background border-t border-primary/10 ">
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">

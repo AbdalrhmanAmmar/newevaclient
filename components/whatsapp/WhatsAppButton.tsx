@@ -16,13 +16,14 @@ const WhatsAppButton = () => {
   
   const phoneNumber = "966540800987"; 
   const defaultMessage = "مرحبا كيف يمكننا مساعدتك؟";
-  // const openWhatModal = localStorage.setItem("whatmodel", JSON.stringify(isVisible))
+  const openWhatModal = localStorage.setItem("whatmodel", JSON.stringify(isVisible))
 
   
 
   useEffect(() => {
     // تأخير ظهور الأيقونة بعد 3 ثواني
     const visibilityTimer = setTimeout(() => {
+      console.log(openWhatModal)
       setIsVisible(true);
     }, 3000);
     

@@ -8,19 +8,20 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 // import { useScrollStore } from '@/stores/scrollStore';
 import Image from 'next/image';
+import { useScrollStore } from '@/store/scrollStroe';
 
 
 
 const Navbar = () => {
-    // const footerRef = useScrollStore((state) => state.footerRef);
+    const footerRef = useScrollStore((state) => state.footerRef);
 
       const scrollToFooter = () => {
-    // if (footerRef) {
-    //   footerRef.scrollIntoView({ 
-    //     behavior: 'smooth',
-    //     block: 'end'
-    //   });
-    // }
+    if (footerRef) {
+      footerRef.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'end'
+      });
+    }
   };
 
   const router = useRouter();

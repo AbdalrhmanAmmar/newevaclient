@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Shield, Building2, Settings, Star } from 'lucide-react';
+import { useChooseUsStore } from '@/store/scrollStroe';
 
 const HeroSection = () => {
+  const chooseRef = useChooseUsStore((state)=>state.chooseUsRef)
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -17,6 +19,18 @@ const HeroSection = () => {
     { icon: Settings, delay: 2000, position: 'bottom-40 left-20' },
     { icon: Star, delay: 1500, position: 'bottom-20 right-10' },
   ];
+
+
+      const scrollToChoose = () => {
+    if (chooseRef) {
+      chooseRef.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'end'
+      });
+    }
+  };
+
+
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -84,7 +98,7 @@ const HeroSection = () => {
           <div className={`flex flex-col sm:flex-row items-center justify-center gap-6 transition-all duration-1000 delay-600 ${
             isVisible ? 'animate-scale-in opacity-100' : 'opacity-0 scale-95'
           }`}>
-            <Button size="lg" className="btn-gradient text-lg px-8 py-4 group">
+            <Button onClick={scrollToChoose} size="lg" className="btn-gradient text-lg px-8 py-4 group">
               ابدأ رحلتك معنا
               <ArrowLeft className="w-5 h-5 mr-2 transition-transform group-hover:-translate-x-1" />
             </Button>

@@ -246,6 +246,21 @@ export default function RootLayout({
 
   return (
     <html lang="ar" dir="rtl">
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-ZDKDP7V97P"
+          strategy="afterInteractive"
+        />
+        {/* Google Analytics init */}
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-ZDKDP7V97P');
+          `}
+        </Script>
+      </head>
       <body className={inter.className}>
         <Navbar />
         {children}
@@ -271,6 +286,7 @@ export default function RootLayout({
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(navJsonLd) }}
         />
+
 
       </body>
     </html>
