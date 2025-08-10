@@ -14,8 +14,11 @@ const WhatsAppButton = () => {
   const chatRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   
-  const phoneNumber = "966540800987"; // استبدل برقمك
-  const defaultMessage = "مرحبا كيف يمكننا مساعدتك؟"; // الرسالة الافتراضية
+  const phoneNumber = "966540800987"; 
+  const defaultMessage = "مرحبا كيف يمكننا مساعدتك؟";
+  const openWhatModal = localStorage.setItem("whatmodel", JSON.stringify(isVisible))
+
+  
 
   useEffect(() => {
     // تأخير ظهور الأيقونة بعد 3 ثواني
