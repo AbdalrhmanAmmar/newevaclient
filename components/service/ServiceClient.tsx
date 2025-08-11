@@ -111,7 +111,7 @@ const ServiceClient = () => {
   };
 
   return (
-    <section id="services" className="relative py-16 md:py-24 bg-gradient-to-b from-background to-primary/5">
+    <section id="services" className="relative py-16 md:py-24 bg-gradient-to-b from-background to-primary/5" data-nosnippet>
       <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] bg-repeat opacity-10" />
       
       <div className="relative z-10 container mx-auto px-4">
@@ -134,7 +134,7 @@ const ServiceClient = () => {
             >
               <div className="p-6 h-full flex flex-col">
                 <div className="flex items-start mb-4">
-                  <span className="text-3xl mr-3 bg-primary/10 p-3 rounded-lg">
+                  <span className="text-3xl rounded-lg">
                     {service.icon}
                   </span>
                   <h3 className="text-xl font-bold text-foreground mt-2">
