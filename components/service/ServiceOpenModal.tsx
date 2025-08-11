@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input'
 import { serviceFormSchema, ServiceFormValues } from './ServiceFormValues'
 import { useState } from 'react'
 import { toast } from 'sonner'
-// import { createSafetyRequest } from '@/lib/api/ServiceForm'
+import { createSafetyRequest } from '@/lib/api/ServiceForm'
 import {useRouter } from 'next/navigation'
 
 
@@ -23,6 +23,7 @@ interface ServiceOpenModalProps {
 function ServiceOpenModal({ isOpen, onClose, serviceTitle }: ServiceOpenModalProps) {
   const router = useRouter()
   const defaultValues: ServiceFormValues = {
+   nameService :serviceTitle,
     interiorNumber: "",
     commercialRegisterNumber: "",
     activityCode: "",
@@ -54,17 +55,28 @@ function ServiceOpenModal({ isOpen, onClose, serviceTitle }: ServiceOpenModalPro
     }
   }
 
-  const handleSubmit = async (data: ServiceFormValues) => {
+const handleSubmit = async (data: ServiceFormValues) => {
     setIsSubmitting(true)
     try {
-      const response = data
+
+      const requestdata ={nameService:serviceTitle, ...data}
+      const response = await createSafetyRequest(requestdata)
       
       if (response?.error) {
         throw new Error(response.error.message || "حدث خطأ في الخادم")
       }
 
-      toast.success("تم إرسال الطلب بنجاح")
-      router.push(`/RequestConfirmation`)
+      toast.success(" تم إرسال الطلب بنجاح سيتواصل فريق ايفاء معك" , {
+  position: "top-center",
+  style: {
+    backgroundColor: "#4CAF50", // أخضر
+    color: "white",
+    border: "none",
+    fontSize: "16px",
+  },
+});
+
+      router.push(`/`)
       form.reset()
       onClose()
     } catch (error: any) {

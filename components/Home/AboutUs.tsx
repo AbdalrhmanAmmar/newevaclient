@@ -59,15 +59,7 @@ const AboutUs = () => {
 
           {/* Content Section */}
           <div className="space-y-8">
-            {/* Badge */}
-            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card transition-all duration-1000 ${
-              isVisible ? 'animate-fade-in opacity-100' : 'opacity-0 translate-y-4'
-            }`}>
-              <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-sm font-medium text-muted-foreground">
-                الهوية المؤسسية
-              </span>
-            </div>
+
 
             {/* Title */}
             <h2 className={`text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight transition-all duration-1000 delay-200 ${

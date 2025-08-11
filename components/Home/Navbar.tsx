@@ -61,19 +61,24 @@ const Navbar = () => {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <div className="flex items-center space-x-4 space-x-reverse">
-<div className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-primary overflow-hidden">
-  <Image
-     src="/Images/evaa.jpg"
+
+
+              <div className="text-2xl font-bold text-gradient">
+                  <Image
+                        onClick={()=>{
+          router.push("/")
+        }}
+     src="/Images/evalogo.png"
     alt="إيفاء Logo"
-    width={40}  // تخفيض حجم الصورة الأصلية لتناسب المساحة
-    height={40}
-    className="w-full h-full object-cover"  // الأهم هنا
+    width={80}  // تخفيض حجم الصورة الأصلية لتناسب المساحة
+    height={80}
+    className="object-cover pointer"  // الأهم هنا
     quality={100}
-     layout="responsive"
+  
   
   />
-</div>
-              <div className="text-2xl font-bold text-gradient">EVA</div>
+              </div>
+
             </div>
 
             {/* Desktop Navigation */}
@@ -92,9 +97,7 @@ const Navbar = () => {
 
             {/* Action Buttons */}
             <div className="flex items-center space-x-4 space-x-reverse">
-              {/* {token ? (
-                <LogoutBtn />
-              ) : (
+        
                 <Button 
                   variant="ghost" 
                   className="text-foreground/80 hover:text-foreground hover:bg-primary/10"
@@ -103,7 +106,7 @@ const Navbar = () => {
                   <User className="w-4 h-4 ml-2" />
                   تسجيل الدخول
                 </Button>
-              )} */}
+             
               <Button onClick={scrollToFooter} className="btn-gradient">
                 احصل على عرض
               </Button>
@@ -170,10 +173,20 @@ const Navbar = () => {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center space-x-3 space-x-reverse">
-              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-primary">
-                <Shield className="w-4 h-4 text-white" />
-              </div>
-              <div className="text-xl font-bold text-gradient">EVA</div>
+             
+      
+        <Image
+        onClick={()=>{
+          router.push("/")
+        }}
+     src="/Images/evalogo.png"
+    alt="إيفاء Logo"
+    width={80}  // تخفيض حجم الصورة الأصلية لتناسب المساحة
+    height={80}
+    className="object-cover"  // الأهم هنا
+    quality={100}
+/>
+   
             </div>
           </div>
         </div>

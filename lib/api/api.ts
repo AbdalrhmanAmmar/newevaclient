@@ -3,7 +3,7 @@ import axios from "axios";
 
 // إعداد Axios
 const api = axios.create({
-  baseURL: "https://api-eva-l9ot.onrender.com",
+  baseURL: "http://localhost:4000/api",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -22,50 +22,18 @@ const api = axios.create({
 // });
 
 // معالجة الأخطاء
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem("token");
-      window.location.href = "/auth/login";
-    }
-    return Promise.reject(error);
-  }
-);
+// api.interceptors.response.use(
+//   (response) => response,
+//   (error) => {
+//     if (error.response?.status === 401) {
+//       localStorage.removeItem("token");
+//       window.location.href = "/auth/login";
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
 // واجهات البيانات
-export interface AuthResponse {
-  success: boolean;
-  message: string;
-  data?: {
-    user: {
-      id: string;
-      name: string;
-      phone: string;
-      role: "user" | "admin" | "superadmin";
-      isVerified: boolean;
-    };
-    token?: string;
-  };
-}
-
-export interface OTPResponse {
-  success: boolean;
-  message: string;
-  data?: {
-    otpId: string;
-    expiresAt: string;
-  };
-}
-
-export interface VerifyOTPOnlyResponse {
-  success: boolean;
-  message: string;
-  data?: {
-    verified: boolean;
-    otpId: string;
-  };
-}
 
 
 

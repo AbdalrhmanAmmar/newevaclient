@@ -6,6 +6,7 @@ import Navbar from "@/components/Home/Navbar";
 import Footer from "@/components/Footer/Footer";
 import WhatsAppButton from "@/components/whatsapp/WhatsAppButton";
 import Script from "next/script";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -264,6 +265,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Navbar />
         {children}
+        <Toaster />
         <WhatsAppButton />
         <Footer />
 
