@@ -157,7 +157,7 @@ if (isLoading) {
       </div>
     );
   }
-  const points = user.points || 0;
+  const points = user?.points??  0;
   const currentRank = points >= rankThresholds.gold ? "gold" : 
                      points >= rankThresholds.silver ? "silver" : "bronze";
   const pointsToNextRank = currentRank === "gold" ? 0 : 
