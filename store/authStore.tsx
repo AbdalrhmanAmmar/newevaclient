@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 interface User {
   id: string;
@@ -9,7 +9,6 @@ interface User {
   role: "user" | "admin" | "superadmin";
   isVerified: boolean;
   verificationStatus?: "pending" | "approved" | "rejected";
-  // يمكن إضافة المزيد من الحقول حسب الحاجة
   points?: number;
   entityType?: "individual" | "organization" | "company";
   entityName?: string;
@@ -80,23 +79,20 @@ export const useAuthStore = create<AuthState>()(
       resetToken: null,
       isResettingPassword: false,
 
-      // دالة معدلة لضمان دمج الحالة الحالية مع التحديثات الجديدة
       setUser: (user) => set((state) => ({
         user: {
-          ...state.user, // الاحتفاظ بالبيانات الحالية
-          ...user,      // تطبيق التحديثات الجديدة
-          // الحفاظ على verificationStatus الحالي إذا لم يتم توفيره في التحديث
+          ...state.user,
+          ...user,
           verificationStatus: user.verificationStatus ?? state.user?.verificationStatus
         }
       })),
 
-      // دالة جديدة لتحديث حالة التحقق مباشرة
       setVerificationStatus: (status) => 
         set((state) => ({
           user: state.user ? { ...state.user, verificationStatus: status } : null
         })),
 
-      setToken: (token) => set({ token }),
+      setToken: (token) => set({ token, isAuthenticated: !!token }),
       setAuthenticated: (status) => set({ isAuthenticated: status }),
       setLoading: (loading) => set({ isLoading: loading }),
       setError: (error) => set({ error }),
@@ -121,10 +117,15 @@ export const useAuthStore = create<AuthState>()(
       setResettingPassword: (status) => set({ isResettingPassword: status }),
 
       logout: () => {
+        // Clear local storage manually to ensure complete cleanup
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('auth-storage');
+        }
         set({
           user: null,
           token: null,
           isAuthenticated: false,
+          isLoading: false,
           error: null,
           otpId: null,
           isOTPSent: false,
@@ -136,6 +137,9 @@ export const useAuthStore = create<AuthState>()(
       },
 
       clearAll: () => {
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('auth-storage');
+        }
         set({
           user: null,
           token: null,
@@ -153,14 +157,51 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: "auth-storage",
+      storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         user: state.user,
         token: state.token,
         isAuthenticated: state.isAuthenticated,
-        otpId: state.otpId,
-        isOTPSent: state.isOTPSent,
-        pendingPhone: state.pendingPhone,
       }),
+      // Add version to handle future migrations
+      version: 1,
+      migrate: (persistedState, version) => {
+        if (version === 0) {
+          // Migration logic from version 0 to 1 if needed
+        }
+        return persistedState as AuthState;
+      },
     }
   )
 );
+
+// Utility hook for easy access to auth state
+export const useAuth = () => {
+  const {
+    user,
+    token,
+    isAuthenticated,
+    isLoading,
+    error,
+    setUser,
+    setToken,
+    setAuthenticated,
+    setLoading,
+    setError,
+    logout,
+  } = useAuthStore();
+
+  return {
+    user,
+    token,
+    isAuthenticated,
+    isLoading,
+    error,
+    setUser,
+    setToken,
+    setAuthenticated,
+    setLoading,
+    setError,
+    logout,
+  };
+};

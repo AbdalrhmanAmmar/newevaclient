@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { Phone, Lock, LogIn, AlertCircle } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { authAPI } from "@/lib/api/Auth";
-
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function LoginClient() {
   const router = useRouter();
@@ -54,19 +54,17 @@ export default function LoginClient() {
     try {
       const data = await authAPI.login({ phone, password });
 
-      // تحديث الحالة أولاً
-setUser((data as any).user);
+      setUser((data as any).user);
       setToken((data as any).token);
       setAuthenticated(true);
 
-      // إعادة تحميل الصفحة للتأكد من تحديث الحالة
       router.refresh();
 
-      // الانتظار قليلاً قبل التوجيه للتأكد من تحديث الحالة
       setTimeout(() => {
         const redirectPath = (data as any).user.role === "admin" ? "/dashboard" : "/profile";
         router.push(redirectPath);
-      }, 300); // يمكن تعديل هذا التأخير حسب الحاجة
+        toast.success("تم تسجيل الدخول بنجاح!");
+      }, 300);
     } catch (error: any) {
       console.error("Login error:", error);
       
@@ -79,9 +77,8 @@ setUser((data as any).user);
         }
       }
 
-      setErrors({
-        general: errorMessage,
-      });
+      setErrors({ general: errorMessage });
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -97,9 +94,13 @@ setUser((data as any).user);
   const displayPhone = phone.startsWith('966') ? phone.substring(3) : phone; 
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center">
+    <div className="min-h-screen bg-gradient-to-b from-background to-muted flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-card shadow-xl rounded-2xl p-8 border border-muted">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          className="text-center"
+        >
           <Image
             src="/images/whitelogo.png"
             alt="EVA Logo"
@@ -107,7 +108,7 @@ setUser((data as any).user);
             height={150}
             className="mx-auto mb-6"
           />
-          <h2 className="text-3xl font-bold">تسجيل الدخول</h2>
+          <h2 className="text-3xl font-bold text-foreground">تسجيل الدخول</h2>
           <p className="mt-2 text-sm text-muted-foreground">مرحباً بعودتك! يرجى تسجيل الدخول للمتابعة</p>
         </motion.div>
 
@@ -125,30 +126,35 @@ setUser((data as any).user);
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 flex items-center gap-2"
+                className="bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/30 rounded-lg p-4 flex items-center gap-3"
               >
-                <AlertCircle className="w-5 h-5 text-red-500" />
-                <span className="text-red-500 text-sm">{errors.general}</span>
+                <AlertCircle className="w-5 h-5 text-red-500 dark:text-red-400" />
+                <span className="text-red-600 dark:text-red-400 text-sm">{errors.general}</span>
               </motion.div>
             )}
           </AnimatePresence>
 
-          <div className="rounded-md shadow-sm space-y-4">
+          <div className="rounded-md space-y-4">
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium mb-2">رقم الهاتف *</label>
-              <div className="relative">
-                <div className="absolute right-3 top-3 flex items-center gap-2 text-muted">
+              <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2 text-right">
+                رقم الهاتف السعودي
+              </label>
+              <div className="relative" >
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-muted-foreground">
                   <Phone className="h-5 w-5" />
                 </div>
-                <div className="absolute right-10 top-3 flex items-center gap-1 text-muted border-l border-border/20 pl-2">
-                  <span className="text-sm font-medium">966</span>
-                  <div className="w-5 h-5 rounded-full overflow-hidden">
-                    <Image 
-                      src="https://flagcdn.com/sa.svg" 
-                      alt="Saudi Arabia" 
-                      width={20} 
-                      height={20} 
-                    />
+                <div className="absolute inset-y-0 right-10 flex items-center pr-2 border-r border-muted">
+                  <div className="flex items-center gap-1.5 px-2">
+                    <span className="text-sm font-medium text-muted-foreground">+966</span>
+                    <div className="w-5 h-5 rounded-full overflow-hidden">
+                      <Image 
+                        src="https://flagcdn.com/sa.svg" 
+                        alt="Saudi Arabia" 
+                        width={20} 
+                        height={20} 
+                        className="object-cover"
+                      />
+                    </div>
                   </div>
                 </div>
                 <input
@@ -158,23 +164,28 @@ setUser((data as any).user);
                   required
                   value={displayPhone}
                   onChange={handlePhoneChange}
-                  placeholder="5XXXXXXXX"
-                  className={`appearance-none relative block w-full px-3 py-3 border placeholder-muted bg-background/50 text-foreground rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-right pr-32 ${
-                    errors.phone ? "border-red-500" : "border-border/20 focus:border-primary/50"
+                  placeholder="5X XXX XXXX"
+                  className={`block w-full pr-32 py-3 text-right border rounded-lg bg-background focus:ring-2 focus:ring-primary focus:border-primary placeholder-muted-foreground text-foreground transition-all duration-200 ${
+                    errors.phone ? "border-red-500" : "border-muted"
                   }`}
+       
                 />
               </div>
               {errors.phone && (
-                <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                <p className="text-red-500 text-sm mt-1 flex items-center gap-1 text-right">
                   <AlertCircle className="w-4 h-4" />
                   {errors.phone}
                 </p>
               )}
-              <p className="text-xs text-muted-foreground mt-1">مثال: 5XXXXXXXX (بدون 966)</p>
+              <p className="text-xs text-muted-foreground mt-1 text-right">
+                مثال: 512345678
+              </p>
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium mb-2">كلمة المرور *</label>
+              <label htmlFor="password" className="block text-sm font-medium text-foreground mb-2 text-right">
+                كلمة المرور
+              </label>
               <div className="relative">
                 <input
                   id="password"
@@ -183,15 +194,17 @@ setUser((data as any).user);
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`appearance-none relative block w-full px-3 py-3 border placeholder-muted bg-background/50 text-foreground rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 text-right pr-10 ${
-                    errors.password ? "border-red-500" : "border-border/20 focus:border-primary/50"
+                  className={`block w-full pr-10 py-3 border rounded-lg bg-background focus:ring-2 focus:ring-primary focus:border-primary placeholder-muted-foreground text-foreground text-right transition-all duration-200 ${
+                    errors.password ? "border-red-500" : "border-muted"
                   }`}
                   placeholder="كلمة المرور"
                 />
-                <Lock className="absolute right-3 top-3 h-5 w-5 text-muted" />
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-muted-foreground">
+                  <Lock className="h-5 w-5" />
+                </div>
               </div>
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                <p className="text-red-500 text-sm mt-1 flex items-center gap-1 text-right">
                   <AlertCircle className="w-4 h-4" />
                   {errors.password}
                 </p>
@@ -199,13 +212,13 @@ setUser((data as any).user);
             </div>
           </div>
 
-          <div className="flex items-center justify-end">
+          {/* <div className="flex items-center justify-end">
             <div className="text-sm">
               <Link href="/auth/forgot-password" className="font-medium text-primary hover:text-primary/80">
                 نسيت كلمة المرور؟
               </Link>
             </div>
-          </div>
+          </div> */}
 
           <div>
             <motion.button
@@ -213,7 +226,7 @@ setUser((data as any).user);
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={isLoading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-background bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn-gradient w-full flex justify-center py-3 px-4 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-200"
             >
               {isLoading ? (
                 <div className="w-5 h-5 border-2 border-background/30 border-t-background rounded-full animate-spin" />
@@ -227,12 +240,29 @@ setUser((data as any).user);
           </div>
         </motion.form>
 
-        <div className="mt-6 text-center">
-          <Link href="/auth/signup" className="text-sm text-primary hover:text-primary/80">
-            ليس لديك حساب؟ سجل الآن
-          </Link>
+        <div className="mt-6 text-center text-sm">
+          <p className="text-muted-foreground">
+            ليس لديك حساب؟{' '}
+            <Link href="/auth/signup" className="font-medium text-primary hover:text-primary/80">
+              سجل الآن
+            </Link>
+          </p>
         </div>
       </div>
+      
+      <Toaster 
+        position="top-center"
+        toastOptions={{
+          style: {
+            background: 'hsl(var(--background))',
+            color: 'hsl(var(--foreground))',
+            border: '1px solid hsl(var(--border))',
+          },
+          success: {
+            duration: 3000,
+          },
+        }}
+      />
     </div>
   );
 }

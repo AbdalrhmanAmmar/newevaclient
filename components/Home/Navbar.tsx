@@ -1,37 +1,35 @@
 "use client"
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Shield, User, Home, Info, Box, Phone } from 'lucide-react';
+import { User, Home, Info, Box, Phone } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-
 import { useRouter } from 'next/navigation';
-// import { useScrollStore } from '@/stores/scrollStore';
 import Image from 'next/image';
+import { useAuthStore } from "@/store/authStore";
 import { useScrollStore } from '@/store/scrollStroe';
 
-
-
 const Navbar = () => {
-    const footerRef = useScrollStore((state) => state.footerRef);
-
-      const scrollToFooter = () => {
-    if (footerRef) {
-      footerRef.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'end'
-      });
-    }
-  };
-
   const router = useRouter();
+  const pathname = usePathname();
+  const footerRef = useScrollStore((state) => state.footerRef);
+  
+  // Auth state - directly access what we need
+  const token = useAuthStore((state) => state.token);
+  const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
+  
+  // Derive isAuthenticated from token
+  const isAuthenticated = !!token;
+
+  // UI state
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const pathname = usePathname();
-
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
@@ -40,14 +38,29 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const scrollToFooter = () => {
+    if (footerRef) {
+      footerRef.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'end'
+      });
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    setIsMobileMenuOpen(false);
+    router.push('/');
+  };
+
   const navItems = [
     { href: "/", label: "الرئيسية", icon: Home },
     { href: "/about", label: "من نحن", icon: Info },
     { href: "/service", label: "الخدمات", icon: Box },
-    { href: "/info", label: "تواصل معنا", icon: Phone },
+    { href: "/contact", label: "تواصل معنا", icon: Phone },
   ];
 
-
+  if (!mounted) return null;
 
   return (
     <>
@@ -57,28 +70,24 @@ const Navbar = () => {
           ? 'glass-card bg-opacity-90 backdrop-blur-xl shadow-medium' 
           : 'bg-transparent'
       }`}>
-        <div className="container mx-auto container-padding">
+        <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <div className="flex items-center space-x-4 space-x-reverse">
-
-
-              <div className="text-2xl font-bold text-gradient">
-                  <Image
-                        onClick={()=>{
-          router.push("/")
-        }}
-     src="/Images/evalogo.png"
-    alt="إيفاء Logo"
-    width={80}  // تخفيض حجم الصورة الأصلية لتناسب المساحة
-    height={80}
-    className="object-cover pointer"  // الأهم هنا
-    quality={100}
-  
-  
-  />
+              <div 
+                onClick={() => router.push("/")} 
+                className="cursor-pointer"
+              >
+                <Image
+                  src="/Images/evalogo.png"
+                  alt="إيفاء Logo"
+                  width={80}
+                  height={80}
+                  className="object-cover"
+                  quality={100}
+                  priority
+                />
               </div>
-
             </div>
 
             {/* Desktop Navigation */}
@@ -87,17 +96,34 @@ const Navbar = () => {
                 <a
                   key={index}
                   href={item.href}
-                  className="relative text-foreground/80 hover:text-foreground transition-colors duration-300 font-medium group"
+                  className={`relative transition-colors duration-300 font-medium group ${
+                    pathname === item.href 
+                      ? 'text-foreground' 
+                      : 'text-foreground/80 hover:text-foreground'
+                  }`}
                 >
                   {item.label}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary transition-all duration-300 group-hover:w-full" />
+                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-gradient-primary transition-all duration-300 ${
+                    pathname === item.href ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`} />
                 </a>
               ))}
             </div>
 
             {/* Action Buttons */}
             <div className="flex items-center space-x-4 space-x-reverse">
-        
+              {isAuthenticated ? (
+                <div className="flex items-center space-x-4 space-x-reverse">
+                  <Button 
+                    variant="ghost"
+                    className="text-foreground/80 hover:text-foreground hover:bg-primary/10"
+                    onClick={handleLogout}
+                  >
+                    <User className="w-4 h-4 ml-2" />
+                    تسجيل الخروج
+                  </Button>
+                </div>
+              ) : (
                 <Button 
                   variant="ghost" 
                   className="text-foreground/80 hover:text-foreground hover:bg-primary/10"
@@ -106,7 +132,8 @@ const Navbar = () => {
                   <User className="w-4 h-4 ml-2" />
                   تسجيل الدخول
                 </Button>
-             
+              )}
+              
               <Button onClick={scrollToFooter} className="btn-gradient">
                 احصل على عرض
               </Button>
@@ -149,12 +176,44 @@ const Navbar = () => {
 
       {/* Mobile Account Menu */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm">
-          <div className="absolute bottom-16 left-0 right-0 glass-card bg-opacity-95 border-t border-border">
-            <div className="container-padding py-4">
+        <div 
+          className="lg:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          <div 
+            className="absolute bottom-16 left-0 right-0 glass-card bg-opacity-95 border-t border-border"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="container mx-auto px-4 py-4">
               <div className="flex flex-col space-y-3">
-      
-                <Button className="btn-gradient justify-center">
+                {isAuthenticated ? (
+                  <Button 
+                    variant="ghost"
+                    className="w-full"
+                    onClick={handleLogout}
+                  >
+                    تسجيل الخروج
+                  </Button>
+                ) : (
+                  <Button 
+                    variant="ghost"
+                    className="w-full"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      router.push('/auth/login');
+                    }}
+                  >
+                    تسجيل الدخول
+                  </Button>
+                )}
+                
+                <Button 
+                  onClick={() => {
+                    scrollToFooter();
+                    setIsMobileMenuOpen(false);
+                  }} 
+                  className="btn-gradient w-full"
+                >
                   احصل على عرض
                 </Button>
               </div>
@@ -169,24 +228,21 @@ const Navbar = () => {
           ? 'glass-card bg-opacity-90 backdrop-blur-xl shadow-medium' 
           : 'bg-transparent'
       }`}>
-        <div className="container mx-auto container-padding">
+        <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <div className="flex items-center space-x-3 space-x-reverse">
-             
-      
-        <Image
-        onClick={()=>{
-          router.push("/")
-        }}
-     src="/Images/evalogo.png"
-    alt="إيفاء Logo"
-    width={80}  // تخفيض حجم الصورة الأصلية لتناسب المساحة
-    height={80}
-    className="object-cover"  // الأهم هنا
-    quality={100}
-/>
-   
+            <div 
+              onClick={() => router.push("/")} 
+              className="cursor-pointer"
+            >
+              <Image
+                src="/Images/evalogo.png"
+                alt="إيفاء Logo"
+                width={60}
+                height={60}
+                className="object-cover"
+                quality={100}
+                priority
+              />
             </div>
           </div>
         </div>

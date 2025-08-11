@@ -244,37 +244,56 @@ const OTPVerificationStep = ({
           className="space-y-4"
         >
           <div>
-            <label htmlFor="otp" className="sr-only">رمز التحقق</label>
-            <div className="flex justify-center space-x-3">
-              {[0, 1, 2, 3, 4, 5].map((index) => (
-                <motion.div
-                  key={index}
-                  initial={{ scale: 0.9 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.1 * index }}
-                >
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    maxLength={1}
-                    value={otp[index] || ''}
-                    onChange={(e) => {
-                      const newOtp = [...otp];
-                      newOtp[index] = e.target.value.replace(/\D/g, '');
-                      setOtp(newOtp.join(''));
-                      
-                      // Auto focus next input
-                      if (e.target.value && index < 5) {
-                        const nextInput = document.getElementById(`otp-${index + 1}`);
-                        if (nextInput) nextInput.focus();
-                      }
-                    }}
-                    id={`otp-${index}`}
-                    className="w-12 h-14 text-2xl font-bold text-center border border-muted rounded-lg bg-background focus:ring-2 focus:ring-primary focus:border-primary text-foreground transition-all duration-200"
-                  />
-                </motion.div>
-              ))}
-            </div>
+      <label htmlFor="otp" className="sr-only">رمز التحقق</label>
+<div className="flex justify-center gap-2 sm:gap-3">
+  {[0, 1, 2, 3, 4, 5].map((index) => (
+    <motion.div
+      key={index}
+      initial={{ scale: 0.9 }}
+      animate={{ scale: 1 }}
+      transition={{ delay: 0.1 * index }}
+      className="relative"
+    >
+      <input
+        type="text"
+        inputMode="numeric"
+        maxLength={1}
+        value={otp[index] || ''}
+        onChange={(e) => {
+          const newOtp = [...otp];
+          newOtp[index] = e.target.value.replace(/\D/g, '');
+          setOtp(newOtp.join(''));
+          
+          // Auto focus next input
+          if (e.target.value && index < 5) {
+            const nextInput = document.getElementById(`otp-${index + 1}`);
+            if (nextInput) nextInput.focus();
+          }
+
+          // Auto focus previous input on backspace
+          if (e.target.value === '' && index > 0) {
+            const prevInput = document.getElementById(`otp-${index - 1}`);
+            if (prevInput) prevInput.focus();
+          }
+        }}
+        onKeyDown={(e) => {
+          // Handle backspace for empty fields
+          if (e.key === 'Backspace' && !otp[index] && index > 0) {
+            const prevInput = document.getElementById(`otp-${index - 1}`);
+            if (prevInput) prevInput.focus();
+          }
+        }}
+        id={`otp-${index}`}
+        className="w-12 h-14 text-2xl font-bold text-center border border-muted rounded-lg bg-background focus:ring-2 focus:ring-primary focus:border-primary text-foreground transition-all duration-200"
+      />
+      {index === 2 && (
+        <span className="absolute -right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+          -
+        </span>
+      )}
+    </motion.div>
+  ))}
+</div>
           </div>
         </motion.div>
 
