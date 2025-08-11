@@ -112,7 +112,7 @@ const Navbar = () => {
 
             {/* Action Buttons */}
             <div className="flex items-center space-x-4 space-x-reverse">
-              {isAuthenticated ? (
+              {/* {isAuthenticated ? (
                 <div className="flex items-center space-x-4 space-x-reverse">
                   <Button 
                     variant="ghost"
@@ -132,7 +132,7 @@ const Navbar = () => {
                   <User className="w-4 h-4 ml-2" />
                   تسجيل الدخول
                 </Button>
-              )}
+              )} */}
               
               <Button onClick={scrollToFooter} className="btn-gradient">
                 احصل على عرض
@@ -186,7 +186,7 @@ const Navbar = () => {
           >
             <div className="container mx-auto px-4 py-4">
               <div className="flex flex-col space-y-3">
-                {isAuthenticated ? (
+                {/* {isAuthenticated ? (
                   <Button 
                     variant="ghost"
                     className="w-full"
@@ -205,7 +205,7 @@ const Navbar = () => {
                   >
                     تسجيل الدخول
                   </Button>
-                )}
+                )} */}
                 
                 <Button 
                   onClick={() => {
