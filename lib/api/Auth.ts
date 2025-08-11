@@ -35,10 +35,15 @@ export interface VerifyOTPOnlyResponse {
   };
 }
 
+interface Ilogin{
+  phone:string,
+  password:string
+}
+
 // دوال API
 export const authAPI = {
   // تسجيل الدخول
-  login: async (data): Promise<AuthResponse> => {
+  login: async (data:Ilogin): Promise<AuthResponse> => {
     try {
       const response = await api.post("/user/login", data);
       return response.data;
