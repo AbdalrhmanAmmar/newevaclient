@@ -55,3 +55,34 @@ export const createSafetyRequest = async (data: any) => {
     );
   }
 };
+
+
+export const getPaginatedSafetyRequests = async (
+  page = 1,
+  limit = 10,
+  filters = {}
+): Promise<{
+  success: boolean;
+  results: number;
+  total: number;
+  page: number;
+  pages: number;
+  data: ISafetyRequest[];
+}> => {
+  try {
+    const response = await api.get("/FormService/all", {
+      params: {
+        page,
+        limit,
+        ...filters
+      }
+    });
+    return response.data;
+  } catch (error: any) {
+    console.error("API Error:", error.response?.data || error.message);
+    throw new Error(
+      error.response?.data?.message || 
+      "فشل جلب البيانات. يرجى المحاولة لاحقًا."
+    );
+  }
+};

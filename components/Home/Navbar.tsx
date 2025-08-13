@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useAuthStore } from "@/store/authStore";
 import { useScrollStore } from '@/store/scrollStroe';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const Navbar = () => {
   const router = useRouter();
@@ -57,7 +58,7 @@ const Navbar = () => {
     { href: "/", label: "الرئيسية", icon: Home },
     { href: "/about", label: "من نحن", icon: Info },
     { href: "/service", label: "الخدمات", icon: Box },
-    { href: "/contact", label: "تواصل معنا", icon: Phone },
+    { href: "/info", label: "تواصل معنا", icon: Phone },
   ];
 
   if (!mounted) return null;
@@ -112,6 +113,8 @@ const Navbar = () => {
 
             {/* Action Buttons */}
             <div className="flex items-center space-x-4 space-x-reverse">
+              <ThemeToggle />
+              
               {/* {isAuthenticated ? (
                 <div className="flex items-center space-x-4 space-x-reverse">
                   <Button 
@@ -134,7 +137,7 @@ const Navbar = () => {
                 </Button>
               )} */}
               
-              <Button onClick={scrollToFooter} className="btn-gradient">
+              <Button onClick={scrollToFooter} className="btn-gradient shadow-lg hover:shadow-xl">
                 احصل على عرض
               </Button>
             </div>
@@ -143,33 +146,50 @@ const Navbar = () => {
       </nav>
 
       {/* Mobile Bottom Navigation */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 glass-card bg-opacity-95 backdrop-blur-xl border-t border-border shadow-medium">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 glass-card bg-card/95 backdrop-blur-xl border-t border-border/50 shadow-2xl">
+        {/* Gradient overlay for extra beauty */}
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none" />
+        
         <div className="flex justify-around items-center h-16 px-2">
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors ${
+              className={`relative flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-300 hover:scale-110 ${
                 pathname === item.href 
-                  ? 'text-foreground' 
-                  : 'text-foreground/80 hover:text-foreground'
+                  ? 'text-primary bg-primary/10 shadow-lg' 
+                  : 'text-foreground/70 hover:text-foreground hover:bg-accent/50'
               }`}
             >
-              <item.icon className="w-5 h-5" />
-              <span className="text-xs mt-1">{item.label}</span>
+              {pathname === item.href && (
+                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary rounded-full animate-pulse" />
+              )}
+              <item.icon className={`w-5 h-5 transition-all duration-300 ${
+                pathname === item.href ? 'scale-110' : ''
+              }`} />
+              <span className={`text-xs mt-1 font-medium transition-all duration-300 ${
+                pathname === item.href ? 'text-primary' : ''
+              }`}>{item.label}</span>
             </a>
           ))}
           
           <button 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors ${
+            className={`relative flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-300 hover:scale-110 ${
               isMobileMenuOpen 
-                ? 'text-foreground' 
-                : 'text-foreground/80 hover:text-foreground'
+                ? 'text-primary bg-primary/10 shadow-lg' 
+                : 'text-foreground/70 hover:text-foreground hover:bg-accent/50'
             }`}
           >
-            <User className="w-5 h-5" />
-            <span className="text-xs mt-1">الحساب</span>
+            {isMobileMenuOpen && (
+              <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary rounded-full animate-pulse" />
+            )}
+            <User className={`w-5 h-5 transition-all duration-300 ${
+              isMobileMenuOpen ? 'scale-110' : ''
+            }`} />
+            <span className={`text-xs mt-1 font-medium transition-all duration-300 ${
+              isMobileMenuOpen ? 'text-primary' : ''
+            }`}>الحساب</span>
           </button>
         </div>
       </div>
@@ -177,15 +197,23 @@ const Navbar = () => {
       {/* Mobile Account Menu */}
       {isMobileMenuOpen && (
         <div 
-          className="lg:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+          className="lg:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-md"
           onClick={() => setIsMobileMenuOpen(false)}
         >
           <div 
-            className="absolute bottom-16 left-0 right-0 glass-card bg-opacity-95 border-t border-border"
+            className="absolute bottom-16 left-0 right-0 glass-card bg-card/95 border-t border-border/50 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none rounded-t-lg" />
+            
             <div className="container mx-auto px-4 py-4">
               <div className="flex flex-col space-y-3">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-muted-foreground">الإعدادات</span>
+                  <ThemeToggle />
+                </div>
+                
                 {/* {isAuthenticated ? (
                   <Button 
                     variant="ghost"
@@ -212,7 +240,7 @@ const Navbar = () => {
                     scrollToFooter();
                     setIsMobileMenuOpen(false);
                   }} 
-                  className="btn-gradient w-full"
+                  className="btn-gradient w-full shadow-lg hover:shadow-xl"
                 >
                   احصل على عرض
                 </Button>
@@ -223,16 +251,20 @@ const Navbar = () => {
       )}
 
       {/* Mobile Header */}
-      <div className={`lg:hidden fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+      <div className={`lg:hidden fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
         isScrolled 
-          ? 'glass-card bg-opacity-90 backdrop-blur-xl shadow-medium' 
+          ? 'glass-card bg-card/90 backdrop-blur-xl shadow-2xl border-b border-border/50' 
           : 'bg-transparent'
       }`}>
+        {isScrolled && (
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+        )}
+        
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div 
               onClick={() => router.push("/")} 
-              className="cursor-pointer"
+              className="cursor-pointer transition-transform duration-300 hover:scale-105"
             >
               <Image
                 src="/Images/evalogo.png"
@@ -243,6 +275,10 @@ const Navbar = () => {
                 quality={100}
                 priority
               />
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
             </div>
           </div>
         </div>

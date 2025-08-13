@@ -79,7 +79,7 @@ const WhyChooseUs = () => {
       <div className="relative z-10 container mx-auto px-4">
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-gradient">لماذا تختار إيفاء؟</span>
+            <span className="text-gradient glow-effect">لماذا تختار إيفاء؟</span>
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
             في عالم تتزايد فيه متطلبات السلامة، نحرص على أن نكون الاختيار الأمثل

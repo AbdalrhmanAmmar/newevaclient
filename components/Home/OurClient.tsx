@@ -28,7 +28,7 @@ export const OurClients = () => {
           className="text-center"
         >
           <h3 className="text-3xl lg:text-4xl font-bold md:mb-4">
-            عملاؤنا <span className="text-gradient">الكرام</span>
+            عملاؤنا <span className="text-gradient glow-effect">الكرام</span>
           </h3>
           <p className="text-muted-foreground text-2xl">شركاء النجاح والثقة</p>
         </motion.div>
