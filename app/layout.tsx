@@ -7,7 +7,7 @@ import Footer from "@/components/Footer/Footer";
 import WhatsAppButton from "@/components/whatsapp/WhatsAppButton";
 import Script from "next/script";
 import { Toaster } from "sonner";
-import { ThemeProvider } from "@/components/theme-provider";
+// import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -264,18 +264,18 @@ export default function RootLayout({
         </Script>
       </head>
       <body className={inter.className}>
-        <ThemeProvider
+        {/* <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem
           disableTransitionOnChange={false}
-        >
+        > */}
           <Navbar />
           {children}
           <Toaster />
           <WhatsAppButton />
           <Footer />
-        </ThemeProvider>
+        {/* </ThemeProvider> */}
 
         {/* Structured Data */}
         <Script

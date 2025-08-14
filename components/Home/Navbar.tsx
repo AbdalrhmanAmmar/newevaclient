@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useAuthStore } from "@/store/authStore";
 import { useScrollStore } from '@/store/scrollStroe';
-import { ThemeToggle } from '@/components/ui/theme-toggle';
+// import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const Navbar = () => {
   const router = useRouter();
@@ -113,7 +113,7 @@ const Navbar = () => {
 
             {/* Action Buttons */}
             <div className="flex items-center space-x-4 space-x-reverse">
-              <ThemeToggle />
+              {/* <ThemeToggle /> */}
               
               {/* {isAuthenticated ? (
                 <div className="flex items-center space-x-4 space-x-reverse">
@@ -211,7 +211,7 @@ const Navbar = () => {
               <div className="flex flex-col space-y-3">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium text-muted-foreground">الإعدادات</span>
-                  <ThemeToggle />
+                  {/* <ThemeToggle /> */}
                 </div>
                 
                 {/* {isAuthenticated ? (
@@ -277,9 +277,9 @@ const Navbar = () => {
               />
             </div>
             
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
               <ThemeToggle />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
