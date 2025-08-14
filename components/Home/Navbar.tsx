@@ -57,7 +57,7 @@ const Navbar = () => {
     { href: "/", label: "الرئيسية", icon: Home },
     { href: "/about", label: "من نحن", icon: Info },
     { href: "/service", label: "الخدمات", icon: Box },
-    { href: "/contact", label: "تواصل معنا", icon: Phone },
+    { href: "/info", label: "تواصل معنا", icon: Phone },
   ];
 
   if (!mounted) return null;
