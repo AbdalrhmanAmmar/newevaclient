@@ -65,7 +65,7 @@ const AboutUs = () => {
             <h2 className={`text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight transition-all duration-1000 delay-200 ${
               isVisible ? 'animate-slide-up opacity-100' : 'opacity-0 translate-y-8'
             }`}>
-              <span className="text-gradient glow-effect">من نحن – إيفاء للأمن والسلامة</span>
+              <span className="text-gradient">من نحن – إيفاء للأمن والسلامة</span>
             </h2>
 
             {/* Description */}

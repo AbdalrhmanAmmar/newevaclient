@@ -12,7 +12,7 @@ export default function AboutUs() {
         {/* Hero Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-gradient glow-effect">من نحن</span>
+            <span className="text-gradient">من نحن</span>
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
             في عالم يتغير بسرعة، تبقى إيفاء ثابتة في التزامها بتقديم الجودة، والابتكار، والثقة

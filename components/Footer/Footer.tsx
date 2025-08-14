@@ -113,12 +113,9 @@ export default function Footer() {
   }, [setFooterRef]);
 
   return (
-    <footer ref={footerRef} className="bg-background border-t border-primary/10 relative overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-primary/5 via-transparent to-transparent pointer-events-none" />
-      
+    <footer ref={footerRef}   className="bg-background border-t border-primary/10 ">
       {/* Main Footer Content */}
-      <div className="relative container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Company Info */}
           <motion.div
