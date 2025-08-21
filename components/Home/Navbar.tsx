@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useAuthStore } from "@/store/authStore";
 import { useScrollStore } from '@/store/scrollStroe';
+import AccountSelect from './AccountSelect';
 
 const Navbar = () => {
   const router = useRouter();
@@ -79,7 +80,7 @@ const Navbar = () => {
                 className="cursor-pointer"
               >
                 <Image
-                  src="/Images/evalogo.png"
+                  src="/Images/mainLogo.png"
                   alt="إيفاء Logo"
                   width={80}
                   height={80}
@@ -112,17 +113,12 @@ const Navbar = () => {
 
             {/* Action Buttons */}
             <div className="flex items-center space-x-4 space-x-reverse">
-              {/* {isAuthenticated ? (
-                <div className="flex items-center space-x-4 space-x-reverse">
-                  <Button 
-                    variant="ghost"
-                    className="text-foreground/80 hover:text-foreground hover:bg-primary/10"
-                    onClick={handleLogout}
-                  >
-                    <User className="w-4 h-4 ml-2" />
-                    تسجيل الخروج
-                  </Button>
-                </div>
+              {isAuthenticated ? (
+        <div className="flex items-center space-x-4 space-x-reverse">
+<AccountSelect handleLogout={handleLogout} />
+
+</div>
+
               ) : (
                 <Button 
                   variant="ghost" 
@@ -132,7 +128,7 @@ const Navbar = () => {
                   <User className="w-4 h-4 ml-2" />
                   تسجيل الدخول
                 </Button>
-              )} */}
+              )}
               
               <Button onClick={scrollToFooter} className="btn-gradient">
                 احصل على عرض
@@ -160,17 +156,22 @@ const Navbar = () => {
             </a>
           ))}
           
-          <button 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors ${
-              isMobileMenuOpen 
-                ? 'text-foreground' 
-                : 'text-foreground/80 hover:text-foreground'
-            }`}
-          >
-            <User className="w-5 h-5" />
-            <span className="text-xs mt-1">الحساب</span>
-          </button>
+                  {isAuthenticated ? (
+        <div className="flex items-center space-x-4 space-x-reverse">
+<AccountSelect handleLogout={handleLogout} />
+
+</div>
+
+              ) : (
+                <Button 
+                  variant="ghost" 
+                  className="text-foreground/80 hover:text-foreground hover:bg-primary/10"
+                  onClick={() => router.push('/auth/login')}
+                >
+                  <User className="w-4 h-4 ml-2" />
+                  تسجيل الدخول
+                </Button>
+              )}
         </div>
       </div>
 
@@ -244,6 +245,9 @@ const Navbar = () => {
                 priority
               />
             </div>
+                <Button onClick={scrollToFooter} className="btn-gradient">
+                احصل على عرض
+              </Button>
           </div>
         </div>
       </div>

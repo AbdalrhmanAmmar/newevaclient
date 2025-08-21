@@ -619,7 +619,6 @@ export default function SignupClient() {
         clearOTPData();
 
         toast.success("تم إنشاء الحساب بنجاح!");
-        setTimeout(() => router.push("/profile"), 2000);
       } else {
         throw new Error(response.message || "فشل في التسجيل");
       }

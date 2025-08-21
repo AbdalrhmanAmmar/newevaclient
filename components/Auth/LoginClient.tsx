@@ -61,7 +61,7 @@ export default function LoginClient() {
       router.refresh();
 
       setTimeout(() => {
-        const redirectPath = (data as any).user.role === "admin" ? "/dashboard" : "/profile";
+        const redirectPath = (data as any).user.role === "admin" ? "/dashboard" : "/myprofile";
         router.push(redirectPath);
         toast.success("تم تسجيل الدخول بنجاح!");
       }, 300);

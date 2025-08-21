@@ -107,7 +107,7 @@ const WhyChooseUs = () => {
 
           {/* Reels Section - Adjusted scaling */}
           <div className="w-full lg:w-1/2 flex justify-center mt-6 lg:mt-0">
-            <div className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px] lg:max-w-full scale-[0.55] sm:scale-[0.45] md:scale-100">
+            <div className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[360px] lg:max-w-full scale-[0.95] sm:scale-[0.95] md:scale-100">
               <ReelsSection />
             </div>
           </div>

@@ -1,4 +1,4 @@
-//@ts-nocheck
+// app/servicemodal/[slug]/page.tsx
 "use client"
 
 import { Button } from '@/components/ui/button'
@@ -6,22 +6,26 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { serviceFormSchema, ServiceFormValues } from './ServiceFormValues'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { createSafetyRequest } from '@/lib/api/ServiceForm'
 import { useRouter } from 'next/navigation'
+import { services } from './../../../components/service/ServiceClient';
+import { serviceFormSchema, ServiceFormValues } from '@/components/service/ServiceFormValues'
 
-interface ServiceOpenModalProps {
-  isOpen: boolean
-  onClose: () => void
-  serviceTitle: string
-}
-
-function ServiceOpenModal({ isOpen, onClose, serviceTitle }: ServiceOpenModalProps) {
+export default function ServicePage({ params }: { params: { slug: string } }) {
   const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  
+  // العثور على الخدمة المحددة بناءً على الـ slug
+  const service = services.find(s => s.slug === params.slug)
+  
+  if (!service) {
+    return <div className="flex items-center justify-center h-screen">الخدمة غير موجودة</div>
+  }
+
   const defaultValues: ServiceFormValues = {
-    nameService: serviceTitle,
+    nameService: service.title,
     interiorNumber: "",
     commercialRegisterNumber: "",
     activityCode: "",
@@ -38,7 +42,6 @@ function ServiceOpenModal({ isOpen, onClose, serviceTitle }: ServiceOpenModalPro
     emergencyLightsCount: 0
   }
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const form = useForm<ServiceFormValues>({
     resolver: zodResolver(serviceFormSchema),
     defaultValues: defaultValues
@@ -55,7 +58,7 @@ function ServiceOpenModal({ isOpen, onClose, serviceTitle }: ServiceOpenModalPro
   const handleSubmit = async (data: ServiceFormValues) => {
     setIsSubmitting(true)
     try {
-      const requestdata = { nameService: serviceTitle, ...data }
+      const requestdata = { nameService: service.title, ...data }
       const response = await createSafetyRequest(requestdata)
 
       if (response?.error) {
@@ -74,7 +77,6 @@ function ServiceOpenModal({ isOpen, onClose, serviceTitle }: ServiceOpenModalPro
 
       router.push(`/`)
       form.reset()
-      onClose()
     } catch (error: any) {
       console.error("Error submitting form:", error)
       const errorMessage = error.response?.data?.message
@@ -86,20 +88,30 @@ function ServiceOpenModal({ isOpen, onClose, serviceTitle }: ServiceOpenModalPro
     }
   }
 
-  if (!isOpen) return null
-
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-b from-background to-primary/5 py-10 my-6">
       <div className="bg-background rounded-2xl shadow-xl w-full max-w-7xl p-10">
         
         {/* العنوان */}
         <div className="flex flex-col items-center justify-center mb-10">
-          
-          <h3 className="text-3xl font-bold text-center ">طلب خدمة</h3>
-         
+          <div className="text-4xl mb-4">{service.icon}</div>
+          <h3 className="text-3xl font-bold text-center">طلب خدمة: {service.title}</h3>
           <p className="text-muted-foreground mt-2 text-center">
-            الرجاء ملء النموذج بالكامل لطلب الخدمة
+            {service.description}
           </p>
+        </div>
+        
+        {/* ميزات الخدمة */}
+        <div className="mb-10 p-6 bg-primary/5 rounded-lg">
+          <h4 className="text-xl font-semibold mb-4">مميزات الخدمة:</h4>
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {service.features.map((feature, i) => (
+              <li key={i} className="flex items-start">
+                <span className="text-primary mr-2">✓</span>
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
         </div>
         
         {/* الفورم */}
@@ -362,5 +374,3 @@ function ServiceOpenModal({ isOpen, onClose, serviceTitle }: ServiceOpenModalPro
     </div>
   )
 }
-
-export default ServiceOpenModal
