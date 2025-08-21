@@ -1,6 +1,8 @@
 import { z } from "zod";
 
 export const serviceFormSchema = z.object({
+    nameService: z.string().min(1, "اسم الخدمة مطلوب"), 
+
   interiorNumber: z.string()
     .min(1, "الرقم الداخلي مطلوب"),
   
