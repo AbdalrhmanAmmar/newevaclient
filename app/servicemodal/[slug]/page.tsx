@@ -20,12 +20,8 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
   // العثور على الخدمة المحددة بناءً على الـ slug
   const service = services.find(s => s.slug === params.slug)
   
-  if (!service) {
-    return <div className="flex items-center justify-center h-screen">الخدمة غير موجودة</div>
-  }
-
   const defaultValues: ServiceFormValues = {
-    nameService: service.title,
+    nameService: service?.title || "",
     interiorNumber: "",
     commercialRegisterNumber: "",
     activityCode: "",
@@ -85,6 +81,10 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  if (!service) {
+    return <div className="flex items-center justify-center h-screen">الخدمة غير موجودة</div>
   }
 
   return (
