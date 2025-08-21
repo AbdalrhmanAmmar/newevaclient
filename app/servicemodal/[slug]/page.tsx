@@ -58,8 +58,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
   const handleSubmit = async (data: ServiceFormValues) => {
     setIsSubmitting(true)
     try {
-      const requestdata = { nameService: service.title, ...data }
-      const response = await createSafetyRequest(requestdata)
+      const response = await createSafetyRequest(data)
 
       if (response?.error) {
         throw new Error(response.error.message || "حدث خطأ في الخادم")
