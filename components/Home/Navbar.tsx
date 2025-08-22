@@ -126,7 +126,7 @@ const Navbar = () => {
                   onClick={() => router.push('/auth/login')}
                 >
                   <User className="w-4 h-4 ml-2" />
-                  تسجيل الدخول
+                
                 </Button>
               )}
               

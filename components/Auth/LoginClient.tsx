@@ -102,7 +102,7 @@ export default function LoginClient() {
           className="text-center"
         >
           <Image
-            src="/images/whitelogo.png"
+            src="/Images/whitelogo.png"
             alt="EVA Logo"
             width={150}
             height={150}

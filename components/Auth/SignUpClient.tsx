@@ -44,7 +44,7 @@ const PhoneVerificationStep = ({
       >
         <div className="mb-8">
           <Image
-            src="/images/whitelogo.png"
+            src="/Images/whitelogo.png"
             alt="EVA Logo"
             width={120}
             height={120}
