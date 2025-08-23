@@ -5,7 +5,6 @@ import { FaWhatsapp } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 
 const WhatsAppButton = () => {
-  const [message, setMessage] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [delayTime, setDelayTime] = useState(10000); // البداية 10 ثواني
@@ -13,7 +12,6 @@ const WhatsAppButton = () => {
   const router = useRouter();
 
   const phoneNumber = "966540800987";
-  const defaultMessage = "مرحبا كيف يمكننا مساعدتك؟";
 
   useEffect(() => {
     const hasSeenWhatsApp = localStorage.getItem("whatsapp_shown");
@@ -43,17 +41,15 @@ const WhatsAppButton = () => {
     return () => clearTimeout(show);
   }, [delayTime]);
 
-  const sendMessage = () => {
-    const finalMessage = message || defaultMessage;
-    const encodedMessage = encodeURIComponent(finalMessage);
-
-    // اللينك الرسمي لواتساب
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+  const openWhatsApp = () => {
+    // اللينك الرسمي لواتساب بدون نص
+    const whatsappUrl = `https://wa.me/${phoneNumber}`;
 
     // التوجيه مباشرة لواتساب
-    // window.open(whatsappUrl, "_blank");
+    window.open(whatsappUrl, "_blank");
+    
     // أو لو عايز تروح لصفحة وسيطة داخل مشروعك:
-    router.push(`/whatsapp-redirect?url=${encodeURIComponent(whatsappUrl)}`);
+    // router.push(`/whatsapp-redirect?url=${encodeURIComponent(whatsappUrl)}`);
   };
 
   return (
@@ -63,7 +59,7 @@ const WhatsAppButton = () => {
         <button
           className="bg-[#25D366] hover:bg-[#128C7E] text-white rounded-full p-4 shadow-lg"
           aria-label="فتح محادثة واتساب"
-          onClick={sendMessage}
+          onClick={openWhatsApp}
         >
           <FaWhatsapp className="h-8 w-8" />
         </button>
