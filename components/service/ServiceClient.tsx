@@ -12,14 +12,14 @@ export const services = [
     slug: "instant-technical-report",
     description: "تقرير فني شامل يتم إعداده فوراً مع توصيات فورية لتحسين السلامة من الحرائق",
     features: [
-      "",
-
-      "يتم اصدار التقرير خلال 24 ساعه",
+    
+     "يتم اصدار التقرير خلال 24 ساعه",
       "يعتمد من خلال منصات (بلدي / سلامه)",
-      
-      ""
-     
-    ]
+
+  
+
+
+     ]
   },
   { 
     icon: '📊', 
@@ -28,12 +28,12 @@ export const services = [
     description: "تقرير مفصل مع تحليل شامل لاحتياجات السلامة من الحرائق في المنشأة",
     features: [
       "",
-
-      "يتم اصدار التقرير خلال 24 ساعه",
+"يتم اصدار التقرير خلال 24 ساعه",
       "يعتمد من خلال منصات (بلدي / سلامه)",
       
-      ""
-     
+           "   ",
+      
+      "   "
     ]
   },
   { 
@@ -47,7 +47,7 @@ export const services = [
       "يتم اصدار التقرير خلال 24 ساعه",
       "يعتمد من خلال منصات (بلدي / سلامه)",
       
-      ""
+
      
     ]
   },
@@ -72,7 +72,13 @@ export const services = [
   " رفع مساحي معماري معتمد ",
 "إنشاء المخططات (المعمارية - الإنشائية - المكانكية _ الكهربائية)",
 "رفع الطلب لموقع الأمانة" ,
-"إصدار رخصة البناء"
+"إصدار رخصة البناء",
+      "   ",
+      
+      "   ",
+
+      
+   
     ]
   },
   { 
@@ -98,7 +104,8 @@ export const services = [
    " أنظمة إنذار الحريق المبكر العادي والمعنون" ,
 "أنظمة إطفاء متكاملة ( رش آلي - صناديق حريق- مضخات - طفايات)" ,
 "أنظمة الغاز (نوفيك 1230 - FM200 - CO2 - فاير برو - كيتشن هود )" ,
-"لايف سيفتي ( إنارة إحتياطية - أبواب طوارئ - لوحات ارشادية - نقاط التجمع )"
+"لايف سيفتي ( إنارة إحتياطية - أبواب طوارئ - لوحات ارشادية - نقاط التجمع )",
+"   "
     ]
   },
   { 
@@ -110,7 +117,10 @@ export const services = [
       "تقييم حالة الأنظمة الحالية",
       "اقتراحات التحديث والتحسين",
       "استبدال المعدات القديمة",
-      "تحسين كفاءة الأنظمة"
+      "تحسين كفاءة الأنظمة",
+
+      
+
     ]
   }
 ];
@@ -157,49 +167,44 @@ const handleNavigate = (slug: string) => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {services.map((service, index) => (
-            <div 
-              key={index} 
-              className="bg-background rounded-2xl shadow-lg overflow-hidden border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-xl"
-            >
-              <div className="p-6 h-full flex flex-col">
-                <div className="flex items-start mb-4">
-                  {/* <span className="text-3xl rounded-lg">
-                    {service.icon}
-                  </span> */}
-                  <h3 className="text-xl font-bold text-foreground mt-2">
-                    {service.title}
-                  </h3>
-                </div>
-                
-                <p className="text-muted-foreground mb-4 flex-grow">
-                  {service.description}
-                </p>
-                
-                <ul className="space-y-2 mb-6">
-                  {service.features.map((feature, i) => (
-                    <li key={i} className="flex items-start">
-                    {}
-                    {feature.length > 0  ?  <>
-                         <span className="text-primary mr-2">✓</span>
-                      <span className="text-sm">{feature}</span>
-                    </> :                       <span className="text-sm">{feature}</span>
- }
-                 
-                    </li>
-                  ))}
-                </ul>
-                
-    <Button 
-  onClick={() => handleNavigate(service.slug)} 
-  className="w-full mt-auto hover:bg-primary hover:text-white transition-colors"
-  variant="outline"
+        <div 
+  key={index} 
+  className="bg-background rounded-2xl shadow-lg overflow-hidden border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-xl flex flex-col"
 >
-  طلب الخدمة
-  <span className="mr-2 animate-pulse">←</span>
-</Button>
+  <div className="p-6 flex flex-col flex-grow">
+    <div className="flex items-start mb-4">
+      <h3 className="text-xl font-bold text-foreground mt-2">
+        {service.title}
+      </h3>
+    </div>
+    
+    <p className="text-muted-foreground mb-4 flex-grow">
+      {service.description}
+    </p>
 
-              </div>
-            </div>
+    {/* هنا تيجي اللستة */}
+    <ul className="space-y-2 mt-2 flex-grow">
+      {service.features
+        .filter((feature) => feature.trim().length > 0)
+        .map((feature, i) => (
+          <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+            <span className="text-primary mt-1">•</span>
+            <span>{feature}</span>
+          </li>
+        ))}
+    </ul>
+
+    <Button 
+      onClick={() => handleNavigate(service.slug)} 
+      className="w-full mt-4 hover:bg-primary hover:text-white transition-colors"
+      variant="outline"
+    >
+      طلب الخدمة
+      <span className="mr-2 animate-pulse">←</span>
+    </Button>
+  </div>
+</div>
+
           ))}
         </div>
       </div>
