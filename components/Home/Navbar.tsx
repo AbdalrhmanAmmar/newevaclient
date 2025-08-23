@@ -125,7 +125,8 @@ const Navbar = () => {
                   className="text-foreground/80 hover:text-foreground hover:bg-primary/10"
                   onClick={() => router.push('/auth/login')}
                 >
-                  <User className="w-4 h-4 ml-2" />
+                  <User className="w-6 h-6 ml-2" />
+                  تسجيل الدخول
                 
                 </Button>
               )}
@@ -157,18 +158,22 @@ const Navbar = () => {
           ))}
           
                   {isAuthenticated ? (
-        <div className="flex items-center space-x-4 space-x-reverse">
+        <div className="flex items-center flex-col space-x-4 space-x-reverse">
 <AccountSelect handleLogout={handleLogout} />
+<span>تسجيل الخروج</span>
 
 </div>
 
               ) : (
                 <Button 
                   variant="ghost" 
-                  className="text-foreground/80 hover:text-foreground hover:bg-primary/10"
+                  className="text-foreground/80 flex flex-col  hover:text-foreground hover:bg-primary/10"
                   onClick={() => router.push('/auth/login')}
                 >
-                  <User className="w-4 h-4 ml-2" />
+                  <User className="w-5 h-5 " />
+                   <span className="text-xs mt-1">حسابي</span>
+
+                 
                  
                 </Button>
               )}
