@@ -101,13 +101,15 @@ export default function LoginClient() {
           animate={{ opacity: 1, y: 0 }} 
           className="text-center"
         >
-          <Image
-            src="/Images/whitelogo.png"
-            alt="EVA Logo"
-            width={150}
-            height={150}
-            className="mx-auto mb-6"
-          />
+        <Image
+                    src="/Images/evalogo.png"
+                    alt="إيفاء Logo"
+                    width={60}
+                    height={60}
+                    className="object-cover mx-auto"
+                    quality={100}
+                    priority
+                  />
           <h2 className="text-3xl font-bold text-foreground">تسجيل الدخول</h2>
           <p className="mt-2 text-sm text-muted-foreground">مرحباً بعودتك! يرجى تسجيل الدخول للمتابعة</p>
         </motion.div>

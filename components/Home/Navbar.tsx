@@ -114,11 +114,9 @@ const Navbar = () => {
             {/* Action Buttons */}
             <div className="flex items-center space-x-4 space-x-reverse">
               {isAuthenticated ? (
-        <div className="flex items-center space-x-4 space-x-reverse">
-<AccountSelect handleLogout={handleLogout} />
-
-</div>
-
+                <div className="flex items-center space-x-4 space-x-reverse">
+                  <AccountSelect handleLogout={handleLogout} />
+                </div>
               ) : (
                 <Button 
                   variant="ghost" 
@@ -127,7 +125,6 @@ const Navbar = () => {
                 >
                   <User className="w-6 h-6 ml-2" />
                   تسجيل الدخول
-                
                 </Button>
               )}
               
@@ -146,7 +143,7 @@ const Navbar = () => {
             <a
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors ${
+              className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors min-w-[60px] ${
                 pathname === item.href 
                   ? 'text-foreground' 
                   : 'text-foreground/80 hover:text-foreground'
@@ -157,26 +154,23 @@ const Navbar = () => {
             </a>
           ))}
           
-                  {isAuthenticated ? (
-        <div className="flex items-center flex-col  space-x-reverse">
-<AccountSelect handleLogout={handleLogout} />
-<span className='text-xs mt-1'>تسجيل الخروج</span>
-
-</div>
-
-              ) : (
-                <Button 
-                  variant="ghost" 
-                  className="text-foreground/80 flex flex-col p-2  hover:text-foreground hover:bg-primary/10"
-                  onClick={() => router.push('/auth/login')}
-                >
-                  <User className="w-5 h-5 " />
-                   <span className="text-xs mt-1">حسابي</span>
-
-                 
-                 
-                </Button>
-              )}
+          {isAuthenticated ? (
+            <button
+              onClick={handleLogout}
+              className="flex flex-col items-center justify-center p-2 rounded-lg transition-colors min-w-[60px] text-foreground/80 hover:text-foreground"
+            >
+              <User className="w-5 h-5" />
+              <span className="text-xs mt-1">تسجيل الخروج</span>
+            </button>
+          ) : (
+            <a
+              onClick={() => router.push('/auth/login')}
+              className="flex flex-col items-center justify-center p-2 rounded-lg transition-colors min-w-[60px] text-foreground/80 hover:text-foreground cursor-pointer"
+            >
+              <User className="w-5 h-5" />
+              <span className="text-xs mt-1">حسابي</span>
+            </a>
+          )}
         </div>
       </div>
 
@@ -192,27 +186,6 @@ const Navbar = () => {
           >
             <div className="container mx-auto px-4 py-4">
               <div className="flex flex-col space-y-3">
-                {/* {isAuthenticated ? (
-                  <Button 
-                    variant="ghost"
-                    className="w-full"
-                    onClick={handleLogout}
-                  >
-                    تسجيل الخروج
-                  </Button>
-                ) : (
-                  <Button 
-                    variant="ghost"
-                    className="w-full"
-                    onClick={() => {
-                      setIsMobileMenuOpen(false);
-                      router.push('/auth/login');
-                    }}
-                  >
-                    تسجيل الدخول
-                  </Button>
-                )} */}
-                
                 <Button 
                   onClick={() => {
                     scrollToFooter();
@@ -250,9 +223,9 @@ const Navbar = () => {
                 priority
               />
             </div>
-                <Button onClick={scrollToFooter} className="btn-gradient">
-                احصل على عرض
-              </Button>
+            <Button onClick={scrollToFooter} className="btn-gradient">
+              احصل على عرض
+            </Button>
           </div>
         </div>
       </div>
