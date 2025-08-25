@@ -102,10 +102,10 @@ export default function LoginClient() {
           className="text-center"
         >
         <Image
-                    src="/Images/evalogo.png"
+                    src="/Images/black.png"
                     alt="إيفاء Logo"
-                    width={60}
-                    height={60}
+                    width={90}
+                    height={90}
                     className="object-cover mx-auto"
                     quality={100}
                     priority
@@ -214,13 +214,13 @@ export default function LoginClient() {
             </div>
           </div>
 
-          {/* <div className="flex items-center justify-end">
+          <div className="flex items-center justify-end">
             <div className="text-sm">
               <Link href="/auth/forgot-password" className="font-medium text-primary hover:text-primary/80">
                 نسيت كلمة المرور؟
               </Link>
             </div>
-          </div> */}
+          </div>
 
           <div>
             <motion.button
@@ -241,6 +241,13 @@ export default function LoginClient() {
             </motion.button>
           </div>
         </motion.form>
+                <div className="flex items-center justify-end">
+            <div className="text-sm">
+              <Link href="/auth/forgot-password" className="font-medium text-primary hover:text-primary/80">
+                نسيت كلمة المرور؟
+              </Link>
+            </div>
+          </div>
 
         <div className="mt-6 text-center text-sm">
           <p className="text-muted-foreground">

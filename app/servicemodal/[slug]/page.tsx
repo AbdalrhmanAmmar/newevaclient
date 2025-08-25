@@ -33,6 +33,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
     signName: "",
     buildingArea: 0,
     mobile: "",
+    clientName:"",
     extinguishersCount: 0,
     smokeDetectorsCount: 0,
     emergencyLightsCount: 0
@@ -93,7 +94,6 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
         
         {/* العنوان */}
         <div className="flex flex-col items-center justify-center mb-10">
-          <div className="text-4xl mb-4">{service.icon}</div>
           <h3 className="text-3xl font-bold text-center">طلب خدمة: {service.title}</h3>
           <p className="text-muted-foreground mt-2 text-center">
             {service.description}
@@ -101,17 +101,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
         </div>
         
         {/* ميزات الخدمة */}
-        <div className="mb-10 p-6 bg-primary/5 rounded-lg">
-          <h4 className="text-xl font-semibold mb-4">مميزات الخدمة:</h4>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {service.features.map((feature, i) => (
-              <li key={i} className="flex items-start">
-                <span className="text-primary mr-2">✓</span>
-                <span>{feature}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+   
         
         {/* الفورم */}
         <Form {...form}>
@@ -125,7 +115,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
               name="interiorNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>الرقم الداخلي</FormLabel>
+                  <FormLabel>الرقم الوطني الموحد</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -273,6 +263,19 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                       {...field}
                       onChange={(e) => handleNumberInputChange(e, field)}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+                <FormField
+              control={form.control}
+              name="clientName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>الاسم الكامل</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -120,7 +120,7 @@ const Navbar = () => {
               ) : (
                 <Button 
                   variant="ghost" 
-                  className="text-foreground/80 hover:text-foreground hover:bg-primary/10"
+                  className="text-foreground/80 hover:text-foreground hover:bg-transparent"
                   onClick={() => router.push('/auth/login')}
                 >
                   <User className="w-6 h-6 ml-2" />

@@ -32,7 +32,9 @@ export const serviceFormSchema = z.object({
   
   buildingArea: z.number()
     .min(1, "يجب أن تكون مساحة المبنى أكبر من 0"),
-  
+
+    clientName: z.string().min(3, "يجب ان يكون الاسم على الاقل من 3 حروف"),
+
   mobile: z.string()
     .min(10, "يجب أن يتكون رقم الجوال من 10 أرقام")
     .max(10, "يجب أن يتكون رقم الجوال من 10 أرقام")

@@ -44,10 +44,10 @@ const PhoneVerificationStep = ({
       >
         <div className="mb-8">
           <Image
-            src="/Images/evalogo.png"
+            src="/Images/black.png"
             alt="EVA Logo"
-            width={60}
-            height={60}
+            width={90}
+            height={90}
             className="mx-auto"
           />
         </div>
