@@ -33,6 +33,7 @@ function ServiceOpenModal({ isOpen, onClose, serviceTitle }: ServiceOpenModalPro
     signName: "",
     buildingArea: 0,
     mobile: "",
+    clientName:"",
     extinguishersCount: 0,
     smokeDetectorsCount: 0,
     emergencyLightsCount: 0
@@ -262,6 +263,20 @@ function ServiceOpenModal({ isOpen, onClose, serviceTitle }: ServiceOpenModalPro
                       {...field}
                       onChange={(e) => handleNumberInputChange(e, field)}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="clientName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>الاسم بالكامل</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
