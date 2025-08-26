@@ -94,6 +94,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
         
         {/* العنوان */}
         <div className="flex flex-col items-center justify-center mb-10">
+          
           <h3 className="text-3xl font-bold text-center">طلب خدمة: {service.title}</h3>
           <p className="text-muted-foreground mt-2 text-center">
             {service.description}
