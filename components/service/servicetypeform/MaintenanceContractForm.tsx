@@ -81,52 +81,54 @@ function MaintenanceContractForm({
     name: "systems",
   })
 
-  const handleSubmit = async (data: ServiceFormValues) => {
-    setIsSubmitting(true)
-    try {
-      const formData = new FormData()
-      
-      // Append all form data
-      Object.entries(data).forEach(([key, value]) => {
-        if (key === 'systems') {
-          formData.append(key, JSON.stringify(value))
-        } else if (value instanceof File) {
-          formData.append(key, value)
-        } else {
-          formData.append(key, String(value))
-        }
-      })
+const handleSubmit = async (data: ServiceFormValues) => {
+  setIsSubmitting(true)
+  try {
+    const formData = new FormData()
 
-      // Add files to formData
-      const fileFields = [
-        'maintenanceContract',
-        'rentContract',
-        'commercialRegisterFile',
-        'buildingLicense'
-      ]
-      
-      fileFields.forEach(field => {
-        if (data[field]) {
-          formData.append(field, data[field])
-        }
-      })
-
-      const response = await createMaintenanceContract(formData)
-      
-      if (response.error) {
-        throw new Error(response.error.message || "حدث خطأ في الخادم")
+    // أولاً: الحقول العادية
+    Object.entries(data).forEach(([key, value]) => {
+      if (['maintenanceContract', 'rentContract', 'commercialRegisterFile', 'buildingLicense'].includes(key)) {
+        return // استثني الحقول اللي هي ملفات
       }
+      if (key === 'systems') {
+        formData.append(key, JSON.stringify(value))
+      } else {
+        formData.append(key, String(value))
+      }
+    })
 
-      toast.success("✅ تم إرسال الطلب بنجاح", { position: "top-center" })
-      router.push(`/`)
-      form.reset()
-      onClose?.()
-    } catch (error: any) {
-      toast.error(error.message || "حدث خطأ غير متوقع")
-    } finally {
-      setIsSubmitting(false)
+    // ثانياً: الحقول الخاصة بالملفات
+    const fileFields = [
+      'maintenanceContract',
+      'rentContract',
+      'commercialRegisterFile',
+      'buildingLicense',
+    ]
+
+    fileFields.forEach((field) => {
+      if (data[field]) {
+        formData.append(field, data[field] as File)
+      }
+    })
+
+    const response = await createMaintenanceContract(formData)
+
+    if (response.error) {
+      throw new Error(response.error.message || 'حدث خطأ في الخادم')
     }
+
+    toast.success('✅ تم إرسال الطلب بنجاح', { position: 'top-center' })
+    router.push(`/`)
+    form.reset()
+    onClose?.()
+  } catch (error: any) {
+    toast.error(error.message || 'حدث خطأ غير متوقع')
+  } finally {
+    setIsSubmitting(false)
   }
+}
+
 
   if (!isOpen) return null
 
