@@ -214,13 +214,7 @@ export default function LoginClient() {
             </div>
           </div>
 
-          <div className="flex items-center justify-end">
-            <div className="text-sm">
-              <Link href="/auth/forgot-password" className="font-medium text-primary hover:text-primary/80">
-                نسيت كلمة المرور؟
-              </Link>
-            </div>
-          </div>
+
 
           <div>
             <motion.button

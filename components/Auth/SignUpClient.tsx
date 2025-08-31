@@ -213,9 +213,9 @@ const OTPVerificationStep = ({
         </div>
         
         <h2 className="text-2xl font-bold text-foreground">تحقق من رقمك</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="mt-2 text-sm text-muted-foreground" >
           تم إرسال رمز التحقق إلى الرقم{' '}
-          <span className="font-medium text-foreground">{formattedPhone}</span>
+          <span dir="ltr" className="font-medium text-foreground">{formattedPhone}</span>
         </p>
       </motion.div>
 
@@ -538,7 +538,7 @@ export default function SignupClient() {
         if (otpId && expiresAt) {
           setPendingPhone(phone);
           setOTPData(otpId, expiresAt);
-          setTimeLeft(5 * 60);
+          setTimeLeft(1 * 60);
           setCurrentStep(2);
         } else {
           setError("لم يتم استلام رمز التحقق، يرجى المحاولة مرة أخرى");
@@ -633,30 +633,37 @@ export default function SignupClient() {
   };
 
   // Resend OTP
-  const handleResendOTP = async () => {
-    if (!otpId) {
-      setError("رمز التحقق غير موجود، لا يمكن إعادة الإرسال");
-      return;
+// في handleResendOTP
+const handleResendOTP = async () => {
+  // استخدم phone من state بدلاً من الاعتماد على otpId فقط
+  if (!phone) {
+    setError("رقم الهاتف غير موجود، لا يمكن إعادة الإرسال");
+    return;
+  }
+
+  setIsLoading(true);
+  setError(null);
+
+  try {
+    // أعد إرسال الرمز باستخدام رقم الهاتف مباشرة
+    const response = await authAPI.sendOTP({ phone });
+    
+    if (response.success && response.data) {
+      setOTPData(response.data.otpId, response.data.expiresAt);
+      setTimeLeft(1 * 60);
+      setCanResend(false);
+      setOtp("");
+      toast.success("تم إعادة إرسال الرمز بنجاح");
+    } else {
+      setError(response.message || "حدث خطأ في إعادة الإرسال");
     }
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await authAPI.resendOTP(otpId);
-      if (response.success && response.data) {
-        setOTPData(response.data.otpId, response.data.expiresAt);
-        setTimeLeft(5 * 60);
-        setCanResend(false);
-        setOtp("");
-      }
-    } catch (error: any) {
-      setError(error.message || "حدث خطأ في إعادة إرسال رمز التحقق");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+  } catch (error: any) {
+    setError(error.message || "حدث خطأ في إعادة إرسال رمز التحقق");
+    console.error("Resend OTP error:", error);
+  } finally {
+    setIsLoading(false);
+  }
+};
   // Back button handler
   const handleBack = () => {
     if (currentStep === 2) {
