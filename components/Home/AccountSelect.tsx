@@ -49,7 +49,7 @@ const AccountSelect: React.FC<AccountSelectProps> = ({ handleLogout }) => {
         <button
           onClick={() => {
             setIsOpen(false)
-            window.location.href = "/profile"
+            window.location.href = "/myprofile"
           }}
           className="px-4 py-2 text-sm text-left hover:bg-primary/10 transition"
         >

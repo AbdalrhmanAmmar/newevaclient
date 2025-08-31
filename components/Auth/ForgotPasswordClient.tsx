@@ -22,51 +22,54 @@ export default function ForgotPasswordClient() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!phone.trim()) {
-      setErrors({ phone: "رقم الهاتف مطلوب" });
-      return;
-    }
-    
-    if (!validatePhone(phone)) {
-      setErrors({ phone: "رقم الهاتف غير صحيح" });
-      return;
-    }
+  e.preventDefault();
+  
+  if (!phone.trim()) {
+    setErrors({ phone: "رقم الهاتف مطلوب" });
+    return;
+  }
+  
+  if (!validatePhone(phone)) {
+    setErrors({ phone: "رقم الهاتف غير صحيح" });
+    return;
+  }
 
-    setIsLoading(true);
-    setErrors({});
+  setIsLoading(true);
+  setErrors({});
 
-    try {
-      const response = await fetch('http://localhost:4000/api/user/forgot-password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ phone }),
-      });
+  try {
+    const response = await fetch('http://localhost:4000/api/user/forgot-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ phone }),
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (response.ok) {
-        setIsSubmitted(true);
-        // حفظ رقم الهاتف للتحقق
-        localStorage.setItem('resetPhone', phone);
-        router.push('/auth/verify');
-        toast.success("تم إرسال رمز التحقق بنجاح!");
-      } else {
-        const errorMsg = data.message || 'حدث خطأ في إرسال رمز التحقق';
-        setErrors({ general: errorMsg });
-        toast.error(errorMsg);
+    if (response.ok) {
+      setIsSubmitted(true);
+      // حفظ رقم الهاتف و otpId للتحقق
+      localStorage.setItem('resetPhone', phone);
+      if (data.otpId) {
+        localStorage.setItem('otpId', data.otpId);
       }
-    } catch (error) {
-      const errorMsg = 'حدث خطأ في الاتصال بالخادم';
+      router.push('/auth/verify?type=reset');
+      toast.success("تم إرسال رمز التحقق بنجاح!");
+    } else {
+      const errorMsg = data.message || 'حدث خطأ في إرسال رمز التحقق';
       setErrors({ general: errorMsg });
       toast.error(errorMsg);
-    } finally {
-      setIsLoading(false);
     }
-  };
+  } catch (error) {
+    const errorMsg = 'حدث خطأ في الاتصال بالخادم';
+    setErrors({ general: errorMsg });
+    toast.error(errorMsg);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.replace(/\D/g, '');

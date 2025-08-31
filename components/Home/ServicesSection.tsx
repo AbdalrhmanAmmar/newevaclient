@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft,CheckCircle  } from 'lucide-react';
 import ServiceOpenModal from '../service/ServiceOpenModal';
 
 export const services = [
@@ -13,11 +13,10 @@ export const services = [
     slug: "instant-technical-report",
     description: "تقرير فني شامل يتم إعداده فوراً مع توصيات فورية لتحسين السلامة من الحرائق",
     features: [
-      "",
-      "يتم اصدار التقرير خلال 24 ساعه",
+    
+     "يتم اصدار التقرير خلال 24 ساعه",
       "يعتمد من خلال منصات (بلدي / سلامه)",
-      ""
-    ]
+]
   },
   { 
     icon: '📊', 
@@ -26,13 +25,10 @@ export const services = [
     description: "تقرير مفصل مع تحليل شامل لاحتياجات السلامة من الحرائق في المنشأة",
     features: [
       "",
-
-      "يتم اصدار التقرير خلال 24 ساعه",
+"يتم اصدار التقرير خلال 24 ساعه",
       "يعتمد من خلال منصات (بلدي / سلامه)",
       
-      ""
-     
-    ]
+           ]
   },
   { 
     icon: '🏅', 
@@ -40,14 +36,9 @@ export const services = [
     slug: "safety-installation-certificate",
     description: "إصدار شهادات معتمدة لتركيب أنظمة السلامة ومكافحة الحريق حسب المعايير",
     features: [
-      "",
-
-      "يتم اصدار التقرير خلال 24 ساعه",
+     "يتم اصدار التقرير خلال 24 ساعه",
       "يعتمد من خلال منصات (بلدي / سلامه)",
-      
-      ""
-     
-    ]
+      ]
   },
   { 
     icon: '📝', 
@@ -67,11 +58,11 @@ export const services = [
     slug: "engineering-plan",
     description: "تصميم مخططات هندسية متكاملة لأنظمة السلامة من الحرائق",
     features: [
-      "رفع مساحي معماري معتمد",
-      "إنشاء المخططات (المعمارية - الإنشائية - المكانكية _ الكهربائية)",
-      "رفع الطلب لموقع الأمانة",
-      "إصدار رخصة البناء"
-    ]
+  " رفع مساحي معماري معتمد ",
+"إنشاء المخططات (المعمارية - الإنشائية - المكانكية _ الكهربائية)",
+"رفع الطلب لموقع الأمانة" ,
+"إصدار رخصة البناء",
+     ]
   },
   { 
     icon: '🛡️', 
@@ -79,12 +70,12 @@ export const services = [
     slug: "safety-plan",
     description: "إعداد خطط سلامة متكاملة للمنشآت وفق أعلى المعايير",
     features: [
-      "كود البناء ومتطلبات الدفاع المدني",
-      "خرائط توزيع أنظمة الإنذار",
-      "خرائط توزيع أنظمة الإطفاء وطفايات الحريق",
-      "خرائط توزيع أنظمة سحب الدخان",
-      "دراسة حجم وسعه مضخة الحريق",
-      "لايف سيفتي (إنارة إحتياطية - أبواب طوارئ - لوحات ارشادية - نقاط التجمع)"
+     " كود البناء ومتطلبات الدفاع المدني ",
+"خرائط توزيع أنظمة الإنذار" ,
+"خرائط توزيع أنظمة الإطفاء وطفايات الحريق ",
+"خرائط توزيع أنظمة سحب الدخان",
+"دراسة حجم وسعه مضخة الحريق ",
+"لايف سيفتي ( إنارة إحتياطية - أبواب طوارئ - لوحات ارشادية - نقاط التجمع )"
     ]
   },
   { 
@@ -93,11 +84,11 @@ export const services = [
     slug: "safety-systems-installation",
     description: "حلول متكاملة للمشاريع الحكومية والخاصة",
     features: [
-      "أنظمة إنذار الحريق المبكر العادي والمعنون",
-      "أنظمة إطفاء متكاملة (رش آلي - صناديق حريق- مضخات - طفايات)",
-      "أنظمة الغاز (نوفيك 1230 - FM200 - CO2 - فاير برو - كيتشن هود)",
-      "لايف سيفتي (إنارة إحتياطية - أبواب طوارئ - لوحات ارشادية - نقاط التجمع)"
-    ]
+   " أنظمة إنذار الحريق المبكر العادي والمعنون" ,
+"أنظمة إطفاء متكاملة ( رش آلي - صناديق حريق- مضخات - طفايات)" ,
+"أنظمة الغاز (نوفيك 1230 - FM200 - CO2 - فاير برو - كيتشن هود )" ,
+"لايف سيفتي ( إنارة إحتياطية - أبواب طوارئ - لوحات ارشادية - نقاط التجمع )",
+]
   },
   { 
     icon: '🔄', 
@@ -108,8 +99,8 @@ export const services = [
       "تقييم حالة الأنظمة الحالية",
       "اقتراحات التحديث والتحسين",
       "استبدال المعدات القديمة",
-      "تحسين كفاءة الأنظمة"
-    ]
+      "تحسين كفاءة الأنظمة",
+]
   }
 ];
 
@@ -159,40 +150,40 @@ const ServiceClient = () => {
           {randomServices.map((service, index) => (
             <div 
               key={index} 
-              className="bg-background rounded-2xl shadow-lg overflow-hidden border border-border/50 hover:border-primary/50 transition-all duration-300 group"
+              className="bg-background rounded-2xl shadow-lg overflow-hidden border border-border/50 hover:border-primary/50 transition-all duration-300 group flex flex-col"
             >
-              <div className="p-6 h-full flex flex-col">
+              <div className="p-6 flex-grow">
                 <div className="flex items-start mb-4">
-                  <span className="text-3xl mr-3 bg-primary/10 p-3 rounded-lg group-hover:bg-primary/20 transition-colors">
-                    {service.icon}
-                  </span>
+                  <span className="text-2xl mr-3">{service.icon}</span>
                   <h3 className="text-xl font-bold text-foreground mt-2">
                     {service.title}
                   </h3>
                 </div>
                 
-                <p className="text-muted-foreground mb-4 flex-grow">
+                <p className="text-muted-foreground mb-4">
                   {service.description}
                 </p>
                 
-                <ul className="space-y-2 mb-6">
-                  {service.features.map((feature, i) => (
-                    <li key={i} className="flex items-start">
-                      {feature.length > 0 ? (
-                        <>
-                          <span className="text-primary mr-2">✓</span>
+                {/* قسم الميزات المعدل */}
+                <div className="mb-6 border-t pt-4">
+                  <h4 className="font-semibold text-primary mb-3 text-right">المميزات:</h4>
+                  <ul className="space-y-2">
+                    {service.features.map((feature, i) => (
+                      feature.length > 0 && (
+                        <li key={i} className="flex items-start text-right">
+                          <CheckCircle className="w-4 h-4 text-green-500 ml-2 mt-1 flex-shrink-0" />
                           <span className="text-sm">{feature}</span>
-                        </>
-                      ) : (
-                        <span className="text-sm">{feature}</span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-                
+                        </li>
+                      )
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              
+              <div className="p-6 pt-0 mt-auto">
                 <Button 
                   onClick={() => handleNavigate(service.slug)} 
-                  className="w-full mt-auto group-hover:bg-primary group-hover:text-white transition-colors"
+                  className="w-full group-hover:bg-primary group-hover:text-white transition-colors"
                   variant="outline"
                 >
                   طلب الخدمة

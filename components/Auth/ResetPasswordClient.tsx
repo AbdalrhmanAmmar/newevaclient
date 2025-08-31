@@ -51,50 +51,68 @@ export default function ResetPasswordClient() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validateForm()) return;
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  if (!validateForm()) return;
 
-    setIsLoading(true);
-    setErrors({});
+  setIsLoading(true);
+  setErrors({});
 
-    try {
-      const response = await fetch('http://localhost:4000/api/user/reset-password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          phone,
-          password: formData.password,
-        }),
-      });
+  try {
+    // الحصول على التوكن ورقم الهاتف من localStorage
+    const resetToken = localStorage.getItem('resetToken') || '';
+    const resetPhone = localStorage.getItem('resetPhone') || '';
 
-      const data = await response.json();
+    console.log('Sending reset request with:', {
+      phone: resetPhone,
+      token: resetToken,
+      newPassword: formData.password
+    });
 
-      if (response.ok) {
-        setIsSuccess(true);
-        localStorage.removeItem('resetPhone');
-        
-        toast.success("تم إعادة تعيين كلمة المرور بنجاح!");
-        
-        setTimeout(() => {
-          router.push('/auth/login');
-        }, 3000);
-      } else {
-        const errorMsg = data.message || 'حدث خطأ في إعادة تعيين كلمة المرور';
-        setErrors({ general: errorMsg });
-        toast.error(errorMsg);
-      }
-    } catch (error) {
-      const errorMsg = 'حدث خطأ في الاتصال بالخادم';
+    const response = await fetch('http://localhost:4000/api/user/reset-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        phone: resetPhone, // إضافة رقم الهاتف
+        token: resetToken, // التوكن
+        newPassword: formData.password, // كلمة المرور الجديدة
+      }),
+    });
+
+    const data = await response.json();
+    console.log('Reset response:', data);
+
+    if (response.ok) {
+      setIsSuccess(true);
+      localStorage.removeItem('resetPhone');
+      localStorage.removeItem('resetToken');
+      
+      toast.success("تم إعادة تعيين كلمة المرور بنجاح!");
+      
+      setTimeout(() => {
+        router.push('/auth/login');
+      }, 3000);
+    } else {
+      const errorMsg = data.message || 'حدث خطأ في إعادة تعيين كلمة المرور';
       setErrors({ general: errorMsg });
       toast.error(errorMsg);
-    } finally {
-      setIsLoading(false);
     }
-  };
+  } catch (error) {
+    console.error('Reset error:', error);
+    const errorMsg = 'حدث خطأ في الاتصال بالخادم';
+    setErrors({ general: errorMsg });
+    toast.error(errorMsg);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
+
+
 
   const handleInputChange = (field: keyof typeof formData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));

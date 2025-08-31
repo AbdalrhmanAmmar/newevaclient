@@ -32,15 +32,21 @@ export default function VerifyClient() {
     }
   }, [timer, isVerified]);
 
-  // التحقق من وجود OTP ID ورقم الهاتف
-//   useEffect(() => {
-//     if (!otpId || !phone) {
-//       const redirectPath = verificationType === "reset" 
-//         ? "/auth/forgot-password" 
-//         : "/auth/signup";
-//       router.push(redirectPath);
-//     }
-//   }, [otpId, phone, verificationType, router]);
+useEffect(() => {
+  // إذا كان نوع التحقق هو reset، تأكد من وجود resetPhone و otpId
+  if (verificationType === "reset") {
+    const resetPhone = localStorage.getItem('resetPhone');
+    const storedOtpId = localStorage.getItem('otpId');
+    
+    if (!resetPhone || !storedOtpId) {
+      router.push('/auth/forgot-password');
+      return;
+    }
+    
+    setPhone(resetPhone);
+    setOtpId(storedOtpId);
+  }
+}, [verificationType, router]);
 
   const handleOTPChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, "").slice(0, 6);
@@ -56,65 +62,58 @@ export default function VerifyClient() {
     return true;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validateOTP()) return;
-    if (!otpId) {
-      setError("لم يتم العثور على معرف التحقق");
-      return;
-    }
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  if (!validateOTP()) return;
+  if (!otpId || !phone) {
+    setError("لم يتم العثور على بيانات التحقق");
+    return;
+  }
 
-    setIsLoading(true);
-    setError(null);
+  setIsLoading(true);
+  setError(null);
 
-    try {
-      // استبدل هذا باستدعاء API الفعلي
-      const response = await fetch('http://localhost:4000/api/user/verify-otp', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          otp,
-          otpId,
-          phone
-        }),
-      });
+  try {
+    const response = await fetch('http://localhost:4000/api/user/verify-reset-otp', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        otp,
+        otpId,
+        phone
+      }),
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (response.ok) {
-        setIsVerified(true);
-        localStorage.removeItem('otpId');
-        
-        toast.success("تم التحقق بنجاح!");
+    if (response.ok) {
+      setIsVerified(true);
+      toast.success("تم التحقق بنجاح!");
 
-        if (verificationType === "reset") {
-          // حفظ التوكن للاستخدام في إعادة تعيين كلمة المرور
-          if (data.token) {
-            localStorage.setItem('resetToken', data.token);
-          }
-          setTimeout(() => {
-            router.push("/auth/reset-password");
-          }, 2000);
-        } else {
-          // تسجيل جديد
-          setTimeout(() => {
-            router.push("/auth/login");
-          }, 2000);
-        }
-      } else {
-        setError(data.message || "رمز التحقق غير صحيح");
-        toast.error(data.message || "رمز التحقق غير صحيح");
+      console.log(`data`, data)
+
+      // حفظ التوكن في localStorage
+      if (data.resetToken) {
+        localStorage.setItem('resetToken', data.resetToken);
       }
-    } catch (error: any) {
-      setError("حدث خطأ في الاتصال بالخادم");
-      toast.error("حدث خطأ في الاتصال بالخادم");
-    } finally {
-      setIsLoading(false);
+
+      setTimeout(() => {
+        router.push("/auth/reset-password");
+      }, 2000);
+    } else {
+      setError(data.message || "رمز التحقق غير صحيح");
+      toast.error(data.message || "رمز التحقق غير صحيح");
     }
-  };
+  } catch (error: any) {
+    setError("حدث خطأ في الاتصال بالخادم");
+    toast.error("حدث خطأ في الاتصال بالخادم");
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const handleResendOTP = async () => {
     if (!phone || !canResend) return;
