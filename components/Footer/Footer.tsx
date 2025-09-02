@@ -34,7 +34,7 @@ const contactInfo = [
   {
     icon: MapPin,
     label: "المملكة العربية السعودية، الرياض, حي الفيحاء – طريق ابن ماجة",
-    href: "#",
+    href: "https://maps.app.goo.gl/QCg8N6SNBRYNRFBZ9?g_st=aw",
   },
   {
     icon: Phone,
@@ -48,7 +48,7 @@ const contactInfo = [
   },
   {
     icon: Clock,
-    label: "الأحد - الخميس: 9:00 ص - 9:00 م",
+    label: "الأحد - الخميس: 9:00 ص - 6:00 م",
     href: "#",
   },
 ];

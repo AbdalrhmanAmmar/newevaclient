@@ -1,4 +1,8 @@
+import { useAuthStore } from "@/store/authStore";
 import axios from "axios";
+
+
+
 
 
 // إعداد Axios
@@ -13,14 +17,13 @@ const api = axios.create({
 });
 
 
-// إضافة التوكن للطلبات
-// api.interceptors.request.use((config) => {
-//   const token = useAuthStore.getState().token || localStorage.getItem("token");
-//   if (token) {
-//     config.headers.Authorization = `Bearer ${token}`;
-//   }
-//   return config;
-// });
+api.interceptors.request.use((config) => {
+  const token = useAuthStore.getState().token || localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 // معالجة الأخطاء
 // api.interceptors.response.use(

@@ -154,7 +154,6 @@ const ServiceClient = () => {
             >
               <div className="p-6 flex-grow">
                 <div className="flex items-start mb-4">
-                  <span className="text-2xl mr-3">{service.icon}</span>
                   <h3 className="text-xl font-bold text-foreground mt-2">
                     {service.title}
                   </h3>

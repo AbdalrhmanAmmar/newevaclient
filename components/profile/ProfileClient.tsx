@@ -10,7 +10,29 @@ import { toast } from "sonner";
 import { authAPI } from "@/lib/api/Auth"; 
 import EmailVerification from './EmailVerification';
 
-
+// أضف هذا في أعلى الملف (تحليل import statements)
+interface IUser {
+  _id?: string;
+  name: string;
+  phone: string;
+  email: string;
+  gender: string;
+  entityType: string;
+  entityName: string;
+  accountRole: string;
+  jobTitle: string;
+  addresses: any[];
+  commercialRecordNumber: string;
+  commercialRecordFile: string;
+  taxNumber: string;
+  taxFile: string;
+  nationalAddressNumber: string;
+  nationalAddressFile: string;
+  verificationStatus: string;
+  hasLoggedIn?: boolean;
+  points?: number;
+  pendingEmail?: string;
+}
 const rankColors = {
   bronze: "from-amber-600 to-amber-800",
   silver: "from-gray-300 to-gray-500",
@@ -42,10 +64,11 @@ const genderOptions = [
 
 export default function ProfileClient() {
   const { user, setUser, token } = useAuthStore();
+  console.log(token, "token")
   console.log(user)
   const [isEditing, setIsEditing] = useState(!user?.hasLoggedIn);
   const [activeTab, setActiveTab] = useState<"profile" | "points" | "leaderboard">("profile");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [fileUploads, setFileUploads] = useState({
     commercialRecordFile: null as File | null,
     taxFile: null as File | null,
@@ -78,28 +101,37 @@ const [editedProfile, setEditedProfile] = useState<IUser>({
   verificationStatus: user?.verificationStatus || "approved", // ✅ أضف هذا السطر
 });
 
-console.log("TOKEN:", token);
+   const fetchUserProfile = async () => {
+      if (!token || token.length < 10) {
+        setIsLoading(false);
+        return;
+      }
 
+      try {
+        const res = await authAPI.getMe(token);
+        console.log("✅ بيانات المستخدم:", res.user);
+        setUser(res.user);
+        setIsEditing(!res.user?.hasLoggedIn);
+      } catch (error) {
+        console.error("❌ فشل جلب بيانات المستخدم:", error);
+        toast.error("فشل في تحميل بيانات المستخدم");
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
 useEffect(() => {
-  if (!token || token.length < 10) return;
+ 
 
-  const fetchUserProfile = async () => {
-    try {
-      const res = await authAPI.getMe(token);
-      console.log("✅ hello", res.user);
-      setUser(res.user);
-    } catch (error) {
-      console.error("❌ فشل جلب بيانات المستخدم:", error);
-      toast.error("فشل في تحميل بيانات المستخدم");
-    }
-    finally{
-        setIsLoading(false)
-    }
-  };
+    fetchUserProfile();
+  }, [token, setUser]);
 
-  fetchUserProfile();
-}, [token, setUser]); // أضف setUser هنا
+  // ✅ تحديث حالة التحرير عند تغيير المستخدم
+  useEffect(() => {
+    if (user) {
+      setIsEditing(!user.hasLoggedIn);
+    }
+  }, [user]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
 
 
@@ -182,69 +214,64 @@ if (isLoading) {
 
 const handleSave = async () => {
   setIsLoading(true);
-  
+
   try {
     const formData = new FormData();
-    
+
     // البيانات الأساسية
-    formData.append('name', editedProfile.name);
-    formData.append('email', editedProfile.email);
-    formData.append('phone', editedProfile.phone);
-    formData.append('gender', editedProfile.gender);
-    formData.append('entityType', editedProfile.entityType);
-    
-    // بيانات الكيانات غير الفردية
-    if (editedProfile.entityType !== 'individual') {
-      formData.append('entityName', editedProfile.entityName);
-      formData.append('accountRole', editedProfile.accountRole);
-      if (editedProfile.accountRole === 'employee') {
-        formData.append('jobTitle', editedProfile.jobTitle);
+    formData.append("name", editedProfile.name);
+    formData.append("email", editedProfile.email);
+    formData.append("phone", editedProfile.phone);
+    formData.append("gender", editedProfile.gender);
+    formData.append("entityType", editedProfile.entityType);
+
+    if (editedProfile.entityType !== "individual") {
+      formData.append("entityName", editedProfile.entityName);
+      formData.append("accountRole", editedProfile.accountRole);
+
+      if (editedProfile.accountRole === "employee") {
+        formData.append("jobTitle", editedProfile.jobTitle);
       }
-      
-      formData.append('commercialRecordNumber', editedProfile.commercialRecordNumber);
-      formData.append('taxNumber', editedProfile.taxNumber);
-      formData.append('nationalAddressNumber', editedProfile.nationalAddressNumber);
-      
+
+      formData.append("commercialRecordNumber", editedProfile.commercialRecordNumber);
+      formData.append("taxNumber", editedProfile.taxNumber);
+      formData.append("nationalAddressNumber", editedProfile.nationalAddressNumber);
+
       if (fileUploads.commercialRecordFile) {
-        formData.append('commercialRecordFile', fileUploads.commercialRecordFile);
+        formData.append("commercialRecordFile", fileUploads.commercialRecordFile);
       }
       if (fileUploads.taxFile) {
-        formData.append('taxFile', fileUploads.taxFile);
+        formData.append("taxFile", fileUploads.taxFile);
       }
       if (fileUploads.nationalAddressFile) {
-        formData.append('nationalAddressFile', fileUploads.nationalAddressFile);
+        formData.append("nationalAddressFile", fileUploads.nationalAddressFile);
       }
     }
-    
-    // إضافة العناوين
-    formData.append('addresses', JSON.stringify(editedProfile.addresses));
 
-    // تحديد إذا كانت هناك تغييرات حساسة تتطلب إعادة التحقق
-    const sensitiveFieldsChanged = 
-      editedProfile.entityType !== user?.entityType ||
-      editedProfile.entityName !== user?.entityName ||
-      editedProfile.commercialRecordNumber !== user?.commercialRecordNumber ||
-      editedProfile.taxNumber !== user?.taxNumber ||
-      editedProfile.nationalAddressNumber !== user?.nationalAddressNumber ||
-      fileUploads.commercialRecordFile !== null ||
-      fileUploads.taxFile !== null ||
-      fileUploads.nationalAddressFile !== null;
-    
+    formData.append("addresses", JSON.stringify(editedProfile.addresses));
+
+    // ✅ إرسال البيانات
     const response = await authAPI.updateProfileAfterLogin(formData, token);
-    
-    setUser({
-      ...response.user,
-      verificationStatus: sensitiveFieldsChanged ? 'pending' : user?.verificationStatus || 'approved'
-    });
-    
+    console.log("📌 response:", response);
+
+    if (!response || !response.user) {
+      toast.error("لم يتم استرجاع بيانات المستخدم بعد التحديث");
+      return;
+    }
+
+    setUser(response.user);
+
     setIsEditing(false);
     setFileUploads({
       commercialRecordFile: null,
       taxFile: null,
       nationalAddressFile: null,
     });
-    
+
     toast.success("تم تحديث الملف الشخصي بنجاح");
+
+    // ✅ أعد تحميل البيانات للتأكد
+    await fetchUserProfile();
   } catch (error: any) {
     console.error("Error saving profile:", error);
     toast.error(error.message || "حدث خطأ أثناء حفظ التغييرات");
@@ -252,6 +279,7 @@ const handleSave = async () => {
     setIsLoading(false);
   }
 };
+
 
   const handleAddressChange = (index: number, field: string, value: string) => {
     const newAddresses = [...editedProfile.addresses];
@@ -421,15 +449,15 @@ const isPending =  user?.verificationStatus === "pending";
                       />
                     </div>
                     
-                  <EmailVerification
-  userId={user._id}
-  currentEmail={user.email}
-  pendingEmail={user.pendingEmail}
-  onVerificationSuccess={() => {
-    
-    fetchUserProfile();
-  }}
-/>
+{user &&  (
+  <EmailVerification
+    userId={user._id}
+    currentEmail={user.email}
+    pendingEmail={user.pendingEmail}
+    onVerificationSuccess={fetchUserProfile} // ✅ استخدام الدالة مباشرة
+
+  />
+)}
                     
                     <div className="space-y-2">
                       <label className="block text-sm text-muted-foreground mb-2">رقم الجوال</label>
@@ -595,6 +623,16 @@ const isPending =  user?.verificationStatus === "pending";
                               ))}
                             </select>
                           </div>
+
+                                <div className="space-y-1 md:col-span-2">
+                            <label className="text-xs text-muted-foreground">تفاصيل العنوان</label>
+                            <textarea
+                              value={address.addressDetails || ""}
+                              onChange={(e) => handleAddressChange(index, "addressDetails", e.target.value)}
+                              className="w-full px-3 py-2 bg-background border border-border/10 rounded-md focus:outline-none focus:border-primary text-sm"
+                              rows={2}
+                            />
+                          </div>
                           
                           <div className="space-y-1">
                             <label className="text-xs text-muted-foreground">رقم المبنى</label>
@@ -607,15 +645,7 @@ const isPending =  user?.verificationStatus === "pending";
                             />
                           </div>
                           
-                          <div className="space-y-1">
-                            <label className="text-xs text-muted-foreground">رقم الوحدة</label>
-                            <input
-                              type="text"
-                              value={address.unitNumber || ""}
-                              onChange={(e) => handleAddressChange(index, "unitNumber", e.target.value)}
-                              className="w-full px-3 py-2 bg-background border border-border/10 rounded-md focus:outline-none focus:border-primary text-sm"
-                            />
-                          </div>
+                     
                           
                           <div className="space-y-1">
                             <label className="text-xs text-muted-foreground">رقم الشقة</label>
@@ -627,15 +657,7 @@ const isPending =  user?.verificationStatus === "pending";
                             />
                           </div>
                           
-                          <div className="space-y-1 md:col-span-2">
-                            <label className="text-xs text-muted-foreground">تفاصيل العنوان</label>
-                            <textarea
-                              value={address.addressDetails || ""}
-                              onChange={(e) => handleAddressChange(index, "addressDetails", e.target.value)}
-                              className="w-full px-3 py-2 bg-background border border-border/10 rounded-md focus:outline-none focus:border-primary text-sm"
-                              rows={2}
-                            />
-                          </div>
+                    
                         </div>
                       </div>
                     ))}
