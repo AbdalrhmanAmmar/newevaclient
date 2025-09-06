@@ -46,10 +46,10 @@ const WhatsAppButton = () => {
     const whatsappUrl = `https://wa.me/${phoneNumber}`;
 
     // التوجيه مباشرة لواتساب
-    window.open(whatsappUrl, "_blank");
+    
     
     // أو لو عايز تروح لصفحة وسيطة داخل مشروعك:
-    // router.push(`/whatsapp-redirect?url=${encodeURIComponent(whatsappUrl)}`);
+router.push(`/whatsapp-redirect?url=${whatsappUrl}`);
   };
 
   return (
