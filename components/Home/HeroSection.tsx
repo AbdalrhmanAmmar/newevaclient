@@ -137,19 +137,25 @@ function HeroSection() {
 
   const slides = [
     {
-      image: '/Slider/بنر 1 (1).jpg',
+      image: '/Slider/bnr1.jpg',
       title: 'إيفا للأمن والسلامة',
       subtitle: 'شريكك الموثوق في الحماية',
       description: 'نوفر أحدث أنظمة الأمن والسلامة لحماية منشآتكم وضمان سلامة الأرواح والممتلكات'
     },
     {
-      image: '/Slider/بنر 3.jpg',
+      image: '/Slider/bnr2.jpg',
       title: 'خدمات متكاملة',
       subtitle: 'من التصميم إلى التنفيذ',
       description: 'نقدم حلول شاملة تشمل التصميم والتركيب والصيانة لجميع أنظمة الأمن والسلامة'
     },
     {
-      image: '/Slider/بنر اليوم الوطني عقد صيانة.jpg',
+      image: '/Slider/bnr3.jpg',
+      title: 'عقود الصيانة المتميزة',
+      subtitle: 'خدمة مستمرة على مدار السنة',
+      description: 'عقود صيانة شاملة تضمن عمل أنظمتكم بأعلى كفاءة وجاهزية دائمة'
+    },
+    {
+      image: '/Slider/bnr4.jpg',
       title: 'عقود الصيانة المتميزة',
       subtitle: 'خدمة مستمرة على مدار السنة',
       description: 'عقود صيانة شاملة تضمن عمل أنظمتكم بأعلى كفاءة وجاهزية دائمة'
@@ -186,9 +192,9 @@ function HeroSection() {
   }
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden py-8">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden py-3">
       {/* Slider Container with Padding */}
-      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative w-full container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative h-[60vh] sm:h-[70vh] lg:h-[80vh] rounded-md overflow-hidden shadow-2xl">
           {/* Slider Background */}
           {slides.map((slide, index) => (
@@ -202,7 +208,7 @@ function HeroSection() {
                 src={slide.image}
                 alt={slide.title}
                 fill
-                className="object-cover"
+                className="object-fit"
                 priority={index === 0}
               />
             </div>
