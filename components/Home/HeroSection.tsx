@@ -133,41 +133,70 @@ import Image from 'next/image'
 function HeroSection() {
   const chooseRef = useChooseUsStore((state) => state.chooseUsRef)
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [currentSmallSlide, setCurrentSmallSlide] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
 
-  const slides = [
+  const smallslides = [
     {
-      image: '/Slider/bnr1.jpg',
+      image: '/Slider/small/smbnr3.jpg',
       title: 'إيفا للأمن والسلامة',
       subtitle: 'شريكك الموثوق في الحماية',
       description: 'نوفر أحدث أنظمة الأمن والسلامة لحماية منشآتكم وضمان سلامة الأرواح والممتلكات'
     },
     {
-      image: '/Slider/bnr2.jpg',
+      image: '/Slider/small/smbnr4.jpg',
       title: 'خدمات متكاملة',
       subtitle: 'من التصميم إلى التنفيذ',
       description: 'نقدم حلول شاملة تشمل التصميم والتركيب والصيانة لجميع أنظمة الأمن والسلامة'
     },
     {
-      image: '/Slider/bnr3.jpg',
+      image: '/Slider/small/smbnr5.jpg',
       title: 'عقود الصيانة المتميزة',
       subtitle: 'خدمة مستمرة على مدار السنة',
       description: 'عقود صيانة شاملة تضمن عمل أنظمتكم بأعلى كفاءة وجاهزية دائمة'
     },
     {
-      image: '/Slider/bnr4.jpg',
+      image: '/Slider/small/smbnr6.jpg',
+      title: 'عقود الصيانة المتميزة',
+      subtitle: 'خدمة مستمرة على مدار السنة',
+      description: 'عقود صيانة شاملة تضمن عمل أنظمتكم بأعلى كفاءة وجاهزية دائمة'
+    }
+  ]
+  const slides = [
+    {
+      image: '/Slider/بنر 1 (1).jpg',
+      title: 'إيفا للأمن والسلامة',
+      subtitle: 'شريكك الموثوق في الحماية',
+      description: 'نوفر أحدث أنظمة الأمن والسلامة لحماية منشآتكم وضمان سلامة الأرواح والممتلكات'
+    },
+    {
+      image: '/Slider/بنر 3.jpg',
+      title: 'خدمات متكاملة',
+      subtitle: 'من التصميم إلى التنفيذ',
+      description: 'نقدم حلول شاملة تشمل التصميم والتركيب والصيانة لجميع أنظمة الأمن والسلامة'
+    },
+    {
+      image: '/Slider/بنر اليوم الوطني عقد صيانة.jpg',
       title: 'عقود الصيانة المتميزة',
       subtitle: 'خدمة مستمرة على مدار السنة',
       description: 'عقود صيانة شاملة تضمن عمل أنظمتكم بأعلى كفاءة وجاهزية دائمة'
     }
   ]
 
+  
+
   useEffect(() => {
     setIsVisible(true)
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length)
     }, 5000)
-    return () => clearInterval(interval)
+    const smallInterval = setInterval(() => {
+      setCurrentSmallSlide((prev) => (prev + 1) % smallslides.length)
+    }, 5000)
+    return () => {
+      clearInterval(interval)
+      clearInterval(smallInterval)
+    }
   }, [])
 
   const scrollToChoose = () => {
@@ -191,12 +220,65 @@ function HeroSection() {
     setCurrentSlide(index)
   }
 
+  const nextSmallSlide = () => {
+    setCurrentSmallSlide((prev) => (prev + 1) % smallslides.length)
+  }
+
+  const prevSmallSlide = () => {
+    setCurrentSmallSlide((prev) => (prev - 1 + smallslides.length) % smallslides.length)
+  }
+
+  const goToSmallSlide = (index: number) => {
+    setCurrentSmallSlide(index)
+  }
+
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden top-[-40px]">
-      {/* Slider Container with Padding */}
-      <div className="relative w-full container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden top-[-40px] ">
+      {/* Small Slider for Mobile Screens */}
+      <div className="relative w-full container mx-auto px-4 sm:px-6 lg:px-8 block md:hidden">
+        <div className="relative h-[60vh] rounded-md overflow-hidden shadow-lg">
+          {/* Small Slider Background */}
+          {smallslides.map((slide, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-1000 ${
+                index === currentSmallSlide ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              <Image
+                src={slide.image}
+                alt={slide.title}
+                fill
+                className="object-fit"
+                priority={index === 0}
+              />
+            </div>
+          ))}
+
+          {/* Small Slider Navigation Arrows */}
+          <button
+            onClick={prevSmallSlide}
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full btn-gradient backdrop-blur-sm hover:bg-white/30 transition-all duration-300 group"
+          >
+            <ChevronLeft className="w-4 h-4 text-black group-hover:scale-110 transition-transform" />
+          </button>
+          
+          <button
+            onClick={nextSmallSlide}
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full btn-gradient backdrop-blur-sm hover:bg-white/30 transition-all duration-300 group"
+          >
+            <ChevronRight className="w-4 h-4 text-black group-hover:scale-110 transition-transform" />
+          </button>
+
+          {/* Small Slider Indicators */}
+
+        </div>
+      </div>
+
+      {/* Large Slider for MD and LG Screens */}
+      <div className="relative w-full container mx-auto px-4 sm:px-6 lg:px-8 hidden md:block">
         <div className="relative h-[60vh] sm:h-[70vh] lg:h-[80vh] rounded-md overflow-hidden shadow-2xl">
-          {/* Slider Background */}
+          {/* Large Slider Background */}
           {slides.map((slide, index) => (
             <div
               key={index}
@@ -214,7 +296,7 @@ function HeroSection() {
             </div>
           ))}
 
-          {/* Navigation Arrows */}
+          {/* Large Slider Navigation Arrows */}
           <button
             onClick={prevSlide}
             className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full btn-gradient backdrop-blur-sm hover:bg-white/30 transition-all duration-300 group"
@@ -229,8 +311,8 @@ function HeroSection() {
             <ChevronRight className="w-6 h-6 text-black group-hover:scale-110 transition-transform" />
           </button>
 
-          {/* Slide Indicators */}
-      
+          {/* Large Slider Indicators */}
+         
         </div>
       </div>
     </section>
