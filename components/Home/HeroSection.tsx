@@ -192,7 +192,7 @@ function HeroSection() {
   }
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden py-3">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden top-[-40px]">
       {/* Slider Container with Padding */}
       <div className="relative w-full container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative h-[60vh] sm:h-[70vh] lg:h-[80vh] rounded-md overflow-hidden shadow-2xl">
