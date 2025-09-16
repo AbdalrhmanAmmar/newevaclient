@@ -164,19 +164,25 @@ function HeroSection() {
   ]
   const slides = [
     {
-      image: '/Slider/بنر 1 (1).jpg',
+      image: '/Slider/bnr1.jpg',
       title: 'إيفا للأمن والسلامة',
       subtitle: 'شريكك الموثوق في الحماية',
       description: 'نوفر أحدث أنظمة الأمن والسلامة لحماية منشآتكم وضمان سلامة الأرواح والممتلكات'
     },
     {
-      image: '/Slider/بنر 3.jpg',
+      image: '/Slider/bnr2.jpg',
       title: 'خدمات متكاملة',
       subtitle: 'من التصميم إلى التنفيذ',
       description: 'نقدم حلول شاملة تشمل التصميم والتركيب والصيانة لجميع أنظمة الأمن والسلامة'
     },
     {
-      image: '/Slider/بنر اليوم الوطني عقد صيانة.jpg',
+      image: '/Slider/bnr3.jpg',
+      title: 'عقود الصيانة المتميزة',
+      subtitle: 'خدمة مستمرة على مدار السنة',
+      description: 'عقود صيانة شاملة تضمن عمل أنظمتكم بأعلى كفاءة وجاهزية دائمة'
+    },
+    {
+      image: '/Slider/bnr4.jpg',
       title: 'عقود الصيانة المتميزة',
       subtitle: 'خدمة مستمرة على مدار السنة',
       description: 'عقود صيانة شاملة تضمن عمل أنظمتكم بأعلى كفاءة وجاهزية دائمة'
@@ -233,7 +239,9 @@ function HeroSection() {
   }
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden top-[-40px] ">
+
+    <div>
+  
       {/* Small Slider for Mobile Screens */}
       <div className="relative w-full container mx-auto px-4 sm:px-6 lg:px-8 block md:hidden">
         <div className="relative h-[60vh] rounded-md overflow-hidden shadow-lg">
@@ -315,7 +323,8 @@ function HeroSection() {
          
         </div>
       </div>
-    </section>
+      </div>
+  
   )
 }
 
