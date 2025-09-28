@@ -209,7 +209,7 @@ const ServiceClient = () => {
 
         <div className="text-center">
           <Button 
-            onClick={() => handleOpen("جميع الخدمات")}
+            onClick={() => router.push('/service')}
             size="lg" 
             className="px-8"
           >
