@@ -13,9 +13,9 @@ import { createSafetyPlan } from "@/lib/api/services/safetyPlanApi"
 const safetyPlanSchema = z.object({
   name: z.string().min(2, "الاسم يجب أن يكون على الأقل حرفين"),
   phone: z.string().min(9, "رقم الهاتف يجب أن يكون على الأقل 9 أرقام"),
-  autocadFile: z.instanceof(File).optional(),
-  buildingLicense: z.instanceof(File).optional(),
-  ownerId: z.instanceof(File).optional(),
+  autocadFile: z.instanceof(File,{ error: "الرجاء رفع ملف المخطط المعماري" }),
+  buildingLicense: z.instanceof(File, {error:"الرجاء رفع ملف رخصة البناء"}),
+  ownerId: z.instanceof(File , {error:"الرجاء رفع ملف السجل التجاري"})
 })
 
 export type SafetyPlanValues = z.infer<typeof safetyPlanSchema>
@@ -93,7 +93,7 @@ export default function SafetyPlanForm({ onClose }: { onClose?: () => void }) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <FormField control={form.control} name="autocadFile" render={({ field: { onChange, value, ...field } }) => (
                 <FormItem>
-                  <FormLabel>ملف أوتوكاد</FormLabel>
+                  <FormLabel>ملف <span>PDF / CAD </span>مخطط المعماري</FormLabel>
                   <FormControl>
                     <Input
                       type="file"
@@ -123,7 +123,7 @@ export default function SafetyPlanForm({ onClose }: { onClose?: () => void }) {
 
               <FormField control={form.control} name="ownerId" render={({ field: { onChange, value, ...field } }) => (
                 <FormItem>
-                  <FormLabel>هوية المالك</FormLabel>
+                  <FormLabel>السجل التجاري</FormLabel>
                   <FormControl>
                     <Input
                       type="file"
